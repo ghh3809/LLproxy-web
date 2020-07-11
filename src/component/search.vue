@@ -14,24 +14,24 @@
                           :height="users.length?'400px':'70px'">
                     <mu-thead slot="header">
                         <mu-th>加入左侧</mu-th>
-                        <mu-th class="mt-avatar">Avatar</mu-th>
+                        <mu-th class="mt-avatar">看板</mu-th>
                         <mu-th>昵称</mu-th>
-                        <!--<mu-th>Rank.</mu-th>-->
+                        <mu-th>等级</mu-th>
                         <mu-th>UID</mu-th>
                         <mu-th class="mt-invite">邀请ID</mu-th>
-
-                        <mu-th v-if="$route.query.showdate">最后更新</mu-th>
                     </mu-thead>
                     <mu-tbody>
-                        <mu-tr v-for="user,index in users" :key="index">
+                        <mu-tr v-for="(user,index) in users" :key="index">
+
                             <mu-td>
 
                                 <!--<mu-float-button icon="add" secondary mini class="demo-float-button"/>-->
                                 <mu-icon-button icon="add" class="add-b" @click="add_user(user)"></mu-icon-button>
                             </mu-td>
+
                             <mu-td class="mt-avatar cursor-pointer" @click="goto_user(user['uid'])">
 
-                                <mu-badge class="demo-badge-content" circle color="redA100"
+                                <mu-badge class="demo-badge-content" circle="" color="redA100"
                                           v-if="user['navi_unit_info']" :content="''+user['navi_unit_info']['level']">
                                     <mu-avatar :src="getavatarsrc(user['navi_unit_info'])" :size="50"></mu-avatar>
                                 </mu-badge>
@@ -39,17 +39,15 @@
                                     <mu-avatar :src="getavatarsrc(false)" :size="50"></mu-avatar>
                                 </mu-badge>
                             </mu-td>
-                            <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['name']}}
-                                <br>Rank. {{user['level']}}
-                            </mu-td>
+
+                            <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['name']}}</mu-td>
+
+                            <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['level']}}</mu-td>
+
                             <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['uid']}}</mu-td>
-                            <!--<mu-td>{{user['level']}}</mu-td>-->
+
                             <mu-td class="cursor-pointer mt-invite" @click="goto_user(user['uid'])">
                                 {{user['invite_code']}}
-                            </mu-td>
-
-                            <mu-td v-if="$route.query.showdate">
-                                {{user['insert_date'].replace('201', "1").replace("T", " ").slice(0, -3)}}
                             </mu-td>
 
                         </mu-tr>
@@ -136,8 +134,11 @@
             },
             getavatarsrc(unit) {
                 if (unit && unit['unit_id']) {
-                    const urls = util.icon_root + unit['unit_id'] + "/" + (unit['display_rank'] - 1) + ".png";
-                    return urls
+                    if (unit['display_rank'] === 2) {
+                        return util.asset_root + unit['rank_max_icon_asset'];
+                    } else {
+                        return util.asset_root + unit['normal_icon_asset'];
+                    }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
                 }

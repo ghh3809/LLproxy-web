@@ -33,7 +33,9 @@
                         </mu-flexbox-item>
                         <mu-flexbox-item style="margin-left: 20px">
 
-                            LP: {{((( userinfo['over_max_energy'] == 0 && lefttime >= 0 ) ? parseInt(userinfo['energy_max'] - lefttime / 360000) : userinfo['over_max_energy'])) + ' /' + userinfo['energy_max']}}
+                            LP: {{((( userinfo['over_max_energy'] === 0 && lefttime >= 0 ) ?
+                            parseInt(userinfo['energy_max'] - lefttime / 360000) : userinfo['over_max_energy'])) + ' /'
+                            + userinfo['energy_max']}}
                             <span style=""
                                   v-if="lefttime>0">还有{{parseInt(lefttime / 60000 / 60) + ':' + pad(parseInt(lefttime / 60000 % 60), 2) + ':' + pad(parseInt(lefttime / 1000 % 60), 2)}}</span>
 
@@ -168,7 +170,7 @@
         created () {
             // 组件创建完后获取数据，
             // 此时 data 已经被 observed 了
-            this.fetchData()
+            this.fetchData();
             this.lp()
 
         },
@@ -184,18 +186,18 @@
             },
             fetchData () {
 //                this.lefttime=0
-                this.flag = false
+                this.flag = false;
                 this.time = setInterval(() => {
                     if (this.flag === true) {
 
-                        clearInterval(this.time)
+                        clearInterval(this.time);
                         this.lefttime = 0
                     } else {
                         this.lp()
                     }
 
-                }, 500)
-                this.flag = false
+                }, 500);
+                this.flag = false;
                 this.error = this.userinfo = null;
                 this.loadingapi = true;
                 // replace getPost with your data fetching util / API wrapper
@@ -207,8 +209,8 @@
                 })
                     .then(function (response) {
                         vm.loadingapi = false;
-                        vm.userinfo = response.data['result']
-                        vm.userinfo.uid = vm.userinfo['user_id']
+                        vm.userinfo = response.data['result'];
+                        vm.userinfo.uid = vm.userinfo['user_id'];
                         bus.$emit('update', vm.userinfo)
 
                     })
@@ -220,27 +222,22 @@
 
             },
             getavatarsrc() {
-                if (this.userinfo && this.userinfo['navi_unit_info'] && this.userinfo['navi_unit_info']['unit_id']) {
-                    const urls = util.icon_root + this.userinfo['navi_unit_info']['unit_id'] + "/" + (this.userinfo['navi_unit_info']['display_rank'] - 1) + ".png";
-                    return urls
-                } else {
-                    return util.asset_root + "assets/image/ui/common/com_win_22.png"
-                }
-            },
-            getcardpicsrc() {
                 if (this.userinfo && this.userinfo['navi_unit_info']) {
-                    const urlp = "https://gitcdn.xyz/repo/iebb/SIFStatic/master/unit/" + ((this.userinfo['navi_unit_info']['display_rank'] - 1) ? "rankup" : "normal") + "/" + this.userinfo['navi_unit_info']['unit_id'] + ".png"
-                    return urlp
+                    if (this.userinfo['navi_unit_info']['display_rank'] === 2) {
+                        return util.asset_root + this.userinfo['navi_unit_info']['rank_max_icon_asset'];
+                    } else {
+                        return util.asset_root + this.userinfo['navi_unit_info']['normal_icon_asset'];
+                    }
                 } else {
-                    return "https://ooo.0o0.ooo/2016/11/21/58325d1698b9f.png"
+                    return util.asset_root + "assets/image/ui/common/com_win_22.png";
                 }
             },
             lp () {
                 if (this.userinfo) {
-                    const thattime= (Date.parse(this.userinfo['energy_full_time'] + "+08:00") - Date.now())
+                    const thattime= (Date.parse(this.userinfo['energy_full_time'] + "+08:00") - Date.now());
 
                     if (thattime <= 0) {
-                        this.flag = true
+                        this.flag = true;
                         this.lefttime = 0
                     } else {
                         this.lefttime = thattime

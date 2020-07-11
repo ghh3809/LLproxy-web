@@ -1,64 +1,38 @@
 <template>
     <div>
         <mu-card style="overflow: hidden">
-            <mu-card-header title="大众脸的同学" subTitle="eh5">
-                <mu-avatar src="https://i.loli.net/2017/07/30/597d5306b696c.png"
-                           slot="avatar"/>
+
+            <mu-card-header title="风之筝">
+                <mu-avatar src="http://114.55.102.93:8080/image/profile.jpg" slot="avatar"/>
             </mu-card-header>
-            <mu-divider shallowInset></mu-divider>
+
+            <mu-divider shallowInset=""></mu-divider>
+
            <div style="padding: 0 10px">
 
-               <!--<mu-card-text>-->
-               <!--<p style="color: red">8/15 17:00炸了,原因是主机商封了游戏域名,现已更换服务器,恢复服务,dns未变更</p>-->
-               <!--</mu-card-text>-->
-
-               <mu-card-title title="这是什么?" subTitle=" LLproxy"/>
+               <mu-card-title title="这是什么?" subTitle=" Kotoumi个人数据站"/>
                <mu-card-text>
-                   这是 <a href="http://ll.sdo.com" target="_blank">LoveLive! 学园偶像祭 (国服)</a> 的数据收集应用
+                   这是 <a href="http://ll.sdo.com" target="_blank">LoveLive! 学园偶像祭 (国服)</a> 的数据收集应用，
+                   前身是<a href="http://pll.sokka.cn" target="_blank">LLproxy</a>。
                    <br>
-                   目前可以收集 个人信息, 卡组信息, LIVE、活动记录, 招募、开箱记录，并提供反汉化补丁
-                   <br> 也可以把它当成游戏代理使用(上海)
+                   目前可以收集个人信息和Live信息，后续会开发并加入更多的功能。
                    <br>
-
                </mu-card-text>
-
 
                <mu-card-title title="使用方法" subTitle="Docs"/>
                <mu-card-text>
-                   查看我们的文档 <a href="https://pll.sokka.cn/docs/index.html" target="_blank">LLproxy 指导</a> <br>
-                   <ul >
-                       <li><a href="https://pll.sokka.cn/docs/insert/intro.html" target="_blank">接入 PLL</a></li>
-                       <li><a href="https://pll.sokka.cn/docs/help/help.html" target="_blank">使用 PLL</a></li>
-                       <li><a href="https://pll.sokka.cn/docs/others/with-sifstats.html" target="_blank">一同使用SIFStats</a></li>
-                   </ul>
-                   以及PLL反汉化
-                   <ul>
-                       <li><a href="https://pll.sokka.cn/docs/anti/satuo.html" target="_blank">反汉化</a></li>
-                   </ul>
+                   原理：将SIF流量通过代理服务器，代理服务器截取并分析
+                   <br>
+                   使用方法：将网络的DNS设置到<code>114.55.102.93</code>。注意不同的WLAN以及流量均需要单独设置。
                </mu-card-text>
-               <mu-card-title title="怎么称呼它?" subTitle=""/>
-               <mu-card-text style="margin-bottom: 20px">
-                   LLproxy
-                   <br>缩写为PLL  (区别LLP)
-                   <br>请通过 <a onfocus="this.blur()" href="//pll.sokka.cn" target="_blank">pll.sokka.cn</a> 或 <a
-                       href="http://aqours.tech" target="_blank">aqours.tech</a> 访问
-                   <br>联系我:在贴吧 @大众脸的同学 或邮至 cimoc@sokka.cn 即可
-                   <br>为加快故障处理及增进交流 请加QQ群吧: <a target="_blank"
-                                               href="//shang.qq.com/wpa/qunwpa?idkey=620795ea4927bedcd6cfd48c571797e466c4d8cdfc26bdf69b419dcca64fb449">467474697</a>
 
+               <mu-card-title title="其他要说的" subTitle=""/>
+               <mu-card-text style="margin-bottom: 20px">
+                   感谢 LLproxy@大众脸的同学 在<a href="https://github.com/EHfive/LLproxy-api" target="_blank">github</a>上的开源。
+                   <br>
+                   如有问题，欢迎随时向我反馈，贴吧ID：风之筝3809
                </mu-card-text>
            </div>
         </mu-card>
     </div>
 </template>
-
-<style>
-    .mt8 {
-        margin-top: 18px;
-    }
-
-    .link {
-        font-size: smaller;
-    }
-
-</style>

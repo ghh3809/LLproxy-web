@@ -18,8 +18,8 @@
                         <mu-th class="wtmap">谱面/完成时间</mu-th>
                         <mu-th class="wtscore">分数</mu-th>
                         <mu-th class="wtcombo">连击数/总数</mu-th>
-                        <mu-th class="wtnotes">P/Gr G/B/M</mu-th>
-                        <mu-th class="wtper">P率</mu-th>
+                        <mu-th class="wtnotes">P/Gr/G/B/M P率</mu-th>
+                        <mu-th class="wtper">活动</mu-th>
                     </mu-thead>
                     <mu-tbody>
                         <mu-tr v-for="(live,index) in lives" :key="index" :class="live['fc']?'live-fc':''" >
@@ -37,7 +37,7 @@
 
                             <mu-td>{{live['score']}}</mu-td>
 
-                            <mu-td >
+                            <mu-td>
                                 {{live['max_combo']}}
                                 <span v-if="live['live_setting_id']">{{live['fc'] ? " FC " : '/' +
                                     (live['perfect_cnt'] + live['great_cnt'] + live['good_cnt'] +
@@ -45,11 +45,14 @@
                                 </span>
                             </mu-td>
 
-                            <mu-td>{{live['perfect_cnt'] + "/" + live['great_cnt']}}
-                                <span style="margin-left: 10px">{{live['good_cnt'] + "/" + live['bad_cnt'] + "/" + live['miss_cnt']}}</span>
+                            <mu-td>{{live['perfect_cnt'] + "/" + live['great_cnt'] + "/" + live['good_cnt'] + "/" +
+                                live['bad_cnt'] + "/" + live['miss_cnt']}}
+                                <br><span style="font-size: 85%">{{getpercent(live)}}</span>
                             </mu-td>
 
-                            <mu-td>{{getpercent(live)}}</mu-td>
+                            <mu-td class="cursor-pointer" @click="goto_event(live['event_id'])">
+                                {{live['event_name']}}
+                            </mu-td>
                         </mu-tr>
                     </mu-tbody>
                 </mu-table>
@@ -105,6 +108,14 @@
                     }
                 })
             },
+            goto_event(eventid){
+                this.$router.push({
+                    path:this.$route.path,
+                    query:{
+                        eventid:eventid
+                    }
+                })
+            },
             handlepage (newIndex) {
                 this.page = newIndex;
                 this.fetchData(false);
@@ -120,7 +131,8 @@
                         uid: vm.$route.params.id,
                         limit: vm.limit,
                         page: vm.page,
-                        setid: vm.$route.query.setid || null
+                        setid: vm.$route.query.setid || null,
+                        eventid: vm.$route.query.eventid || null
                     }
                 })
                     .then(function (response) {

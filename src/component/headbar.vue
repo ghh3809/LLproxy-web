@@ -1,6 +1,6 @@
 <template>
     <div>
-        <mu-appbar title="LLproxy" style="overflow: hidden" fullwidth>
+        <mu-appbar title="Kotoumi个人数据站" style="overflow: hidden" fullwidth>
             <mu-icon-button icon="menu" @click="toggle()" slot="left"></mu-icon-button>
 
             <mu-avatar slot="right" class="appbar-avatar"
@@ -8,7 +8,7 @@
             <mu-auto-complete icon="search" class="appbar-auto-complete" hintText="UID/邀请ID/昵称"
                               v-model.trim="val" slot="right"
                               @input="handleInput" @keydown.enter="search()" @change="search()" filter="noFilter"
-                              :dataSource="dataSource" openOnFocus></mu-auto-complete>
+                              :dataSource="dataSource" openOnFocus=""></mu-auto-complete>
 
 
         </mu-appbar>
@@ -71,15 +71,10 @@
         created () {
             this.switchtheme(true);
             this.defaultlist = {
-                '865384': {
-                    uid: 865384,
+                '6669728': {
+                    uid: 6669728,
                     name: "示例账号1",
-                    invite_code: "113918799"
-                },
-                '5012675': {
-                    uid: 5012675,
-                    name: "示例账号2",
-                    invite_code: "493814939"
+                    invite_code: "368639419"
                 }
             };
             this.savedlist = Cookies.getJSON('userlist');
@@ -175,8 +170,11 @@
             }, 500),
             getavatarsrc(unit) {
                 if (unit && unit['unit_id']) {
-                    const urls = util.icon_root + unit['unit_id'] + "/" + (unit['display_rank'] - 1) + ".png";
-                    return urls
+                    if (unit['display_rank'] === 2) {
+                        return util.asset_root + unit['rank_max_icon_asset'];
+                    } else {
+                        return util.asset_root + unit['normal_icon_asset'];
+                    }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
                 }
