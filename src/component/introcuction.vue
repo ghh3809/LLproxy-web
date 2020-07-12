@@ -21,14 +21,16 @@
 
                <mu-card-title title="使用方法" subTitle="Docs"/>
                <mu-card-text>
-                   原理：将SIF流量通过代理服务器，代理服务器截取并分析
+                   原理：将SIF流量通过代理服务器，代理服务器截取并分析。
                    <br>
                    使用方法：将网络的DNS设置到<code>114.55.102.93</code>。注意不同的WLAN以及流量均需要单独设置。
+                   之后重启游戏即可。
                </mu-card-text>
 
                <mu-card-title title="其他要说的" subTitle=""/>
                <mu-card-text style="margin-bottom: 20px">
-                   感谢 LLproxy@大众脸的同学 在<a href="https://github.com/EHfive/LLproxy-api" target="_blank">github</a>上的开源。
+                   感谢 LLproxy@大众脸的同学 在<a href="https://github.com/EHfive/LLproxy-api" target="_blank">github</a>上的
+                   <a href="http://114.55.102.93:8080/docs/LICENSE" target="_blank">开源</a>。
                    <br>
                    如有问题，欢迎随时向我反馈，贴吧ID：风之筝3809
                </mu-card-text>

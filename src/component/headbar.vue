@@ -7,7 +7,7 @@
                        :src="getavatarsrc(avatar_unit)"></mu-avatar>
             <mu-auto-complete icon="search" class="appbar-auto-complete" hintText="UID/邀请ID/昵称"
                               v-model.trim="val" slot="right"
-                              @input="handleInput" @keydown.enter="search()" @change="search()" filter="noFilter"
+                              @keydown.enter="search()" filter="noFilter"
                               :dataSource="dataSource" openOnFocus=""></mu-auto-complete>
 
 
@@ -20,7 +20,7 @@
                 <!--<mu-menu-item title="User:同学失格/865384" @click="goto('/user/865384')"></mu-menu-item>-->
                 <!--<mu-menu-item title="User:Cimoc/5012675" @click="goto('/user/5012675')"></mu-menu-item>-->
 
-                <mu-menu-item v-for="user,index in user_list" :key="index" :title="'-> '+user.name+'/'+user.uid"
+                <mu-menu-item v-for="(user,index) in user_list" :key="index" :title="'-> '+user.name+'/'+user.uid"
                               @click="goto('/user/'+user.uid)"></mu-menu-item>
                 <mu-menu-item title="清除账号" @click="cleancookie()"></mu-menu-item>
                 <!--<mu-menu-item style="margin-top: 25px" title="关闭侧栏" @click="toggle()"></mu-menu-item>-->
@@ -63,8 +63,6 @@
                     'LIGHT': light,
                     'Aqours': aqours,
                     'TEAL': teal
-
-
                 },
             }
         },
@@ -100,7 +98,7 @@
                     bus.$emit('set', this.user_list);
                     Cookies.set('userlist', this.user_list, {expires: 365})
                 }
-                this.avatar_unit = userinfo.navi_unit_info
+                this.avatar_unit = userinfo['navi_unit_info']
             });
             bus.$on('setnavi', (avatar_unit) => {
                 this.avatar_unit = avatar_unit;
@@ -185,7 +183,7 @@
                 if (tid < tlist.length && tid >= 0) {
 
                 } else {
-                    tid = 2 % tlist.length
+                    tid = 3 % tlist.length
                 }
                 if (!hold) tid = (tid + 1) % tlist.length;
                 this.changeTheme(tlist[tid]);

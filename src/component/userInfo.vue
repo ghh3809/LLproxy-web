@@ -12,6 +12,7 @@
         <mu-card v-else-if="userinfo" style="overflow: hidden">
             <mu-card-header :title="userinfo.name" :subTitle="'Rank. '+userinfo.level">
                 <mu-avatar :src="getavatarsrc()" slot="avatar" :size="60"></mu-avatar>
+                <p style="font-size: 70%; color: gray">*头像未显示时，可在游戏中查看个人资料进行刷新</p>
                 <div>
 
                     <mu-flexbox style="margin-top: 1em">
@@ -210,9 +211,10 @@
                     .then(function (response) {
                         vm.loadingapi = false;
                         vm.userinfo = response.data['result'];
-                        vm.userinfo.uid = vm.userinfo['user_id'];
-                        bus.$emit('update', vm.userinfo)
-
+                        if (vm.userinfo) {
+                            vm.userinfo.uid = vm.userinfo['user_id'];
+                            bus.$emit('update', vm.userinfo)
+                        }
                     })
                     .catch(function (err) {
                         this.error = err.toString();

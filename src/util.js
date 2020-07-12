@@ -7,13 +7,13 @@ if (window.location.protocol === 'https:') {
     live_map = "//sif-jp-raw.oss-cn-shanghai.aliyuncs.com/dist/maps_dict.min.json";
 
 } else {
-    asset_root = "http://114.55.102.93:8080/";
+    asset_root = "http://r.llsif.win/";
     icon_root = "http://114.55.102.93:8080/png/icon_from_unit_id/";
     removable_skill_map = "http://114.55.102.93:8080/dist/removable_skill.min.json";
     live_map = "http://114.55.102.93:8080/dist/maps_dict.min.json";
 }
 const debug = false;
-const api_server = debug?"http://127.0.0.1:5000/":"http://114.55.102.93:8080/api/";
+const api_server = debug?"http://localhost:8090/api/":"http://114.55.102.93:8080/api/";
 
 
 function getkey(key) {

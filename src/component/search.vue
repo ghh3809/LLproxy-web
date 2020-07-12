@@ -19,6 +19,7 @@
                         <mu-th>等级</mu-th>
                         <mu-th>UID</mu-th>
                         <mu-th class="mt-invite">邀请ID</mu-th>
+                        <mu-th>信息更新时间</mu-th>
                     </mu-thead>
                     <mu-tbody>
                         <mu-tr v-for="(user,index) in users" :key="index">
@@ -49,6 +50,8 @@
                             <mu-td class="cursor-pointer mt-invite" @click="goto_user(user['uid'])">
                                 {{user['invite_code']}}
                             </mu-td>
+
+                            <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace("T", " ")}}</mu-td>
 
                         </mu-tr>
                     </mu-tbody>
