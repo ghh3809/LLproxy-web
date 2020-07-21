@@ -3,7 +3,7 @@
         <mu-card style="overflow: hidden">
 
             <mu-card-header title="风之筝">
-                <mu-avatar src="http://114.55.102.93:8080/image/profile.jpg" slot="avatar"/>
+                <mu-avatar src="http://116.62.149.31/image/profile.jpg" slot="avatar"/>
             </mu-card-header>
 
             <mu-divider shallowInset=""></mu-divider>
@@ -30,7 +30,7 @@
                <mu-card-title title="其他要说的" subTitle=""/>
                <mu-card-text style="margin-bottom: 20px">
                    感谢 LLproxy@大众脸的同学 在<a href="https://github.com/EHfive/LLproxy-api" target="_blank">github</a>上的
-                   <a href="http://114.55.102.93:8080/docs/LICENSE" target="_blank">开源</a>。
+                   <a href="http://116.62.149.31/docs/LICENSE" target="_blank">开源</a>。
                    <br>
                    如有问题，欢迎随时向我反馈，贴吧ID：风之筝3809
                </mu-card-text>

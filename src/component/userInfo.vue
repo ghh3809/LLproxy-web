@@ -117,18 +117,9 @@
                         <mu-flexbox-item />
 
                     </mu-flexbox>
-                    <mu-flexbox class="mt8" v-show="false">
-                        <mu-flexbox-item class="flex-demo">
-                            账号4.0更新时间
-                        </mu-flexbox-item>
-                        <mu-flexbox-item class="flex-demo">
-                            {{userinfo['update_date'].replace("T", " ")}}
-                        </mu-flexbox-item>
-                        <mu-flexbox-item />
-                    </mu-flexbox>
                     <mu-flexbox class="mt8">
                         <mu-flexbox-item class="flex-demo">
-                            LLproxy最后 UserInfo 更新于
+                            账号信息最后更新于
                         </mu-flexbox-item>
                         <mu-flexbox-item class="flex-demo">
                             {{userinfo['update_time'].replace("T", " ")}}

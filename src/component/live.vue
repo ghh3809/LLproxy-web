@@ -204,7 +204,7 @@
                     return "C";
                 } else if (live['max_combo'] < total_combo * 0.7) {
                     return "B";
-                } else if (live['max_comnbo'] < total_combo) {
+                } else if (live['max_combo'] < total_combo) {
                     return "A";
                 } else {
                     return "S";
