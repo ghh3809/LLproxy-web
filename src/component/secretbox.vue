@@ -7,57 +7,49 @@
         <mu-card class="loading" v-else-if="loadingapi">
             <mu-circular-progress :size="120" :strokeWidth="7"/>
         </mu-card>
-        <mu-card v-else-if="logs" style="padding: 15px 0px">
+        <mu-card v-else-if="logs" style="padding: 15px 0">
             <!--<mu-card-header title="Myron Avatar" subTitle="sub title">-->
             <!--<mu-avatar src="/images/uicon.jpg" slot="avatar"/>-->
             <!--</mu-card-header>-->
 
-            <mu-card-title title="招募" :subTitle="bypt?'pt招募':'不含N'" style=""></mu-card-title>
+            <mu-card-title title="招募" :subTitle="bypt?'普通生招募':'卡池招募'" style=""></mu-card-title>
 
             <mu-content-block style="margin-left: 10px">
                 <mu-switch label="切换 普通生招募" v-model="bypt"></mu-switch>
-                <br>
-                <mu-switch v-if="bypt" style="" label="不显示 N" v-model="notshown"></mu-switch>
-                <mu-switch v-else style="" label="显示 R" v-model="showr"></mu-switch>
+                <mu-switch v-if="bypt" style="margin-left: 20px" label="不显示 N" v-model="notshown"></mu-switch>
+                <mu-switch v-else style="margin-left: 20px" label="显示 R" v-model="showr"></mu-switch>
             </mu-content-block>
             <div>
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true"
                           :height="(logs.length>=10 || page>1)?'560px':'auto'">
                     <mu-thead slot="header">
-                        <mu-th class="wtcardpool">卡池名称 /时间
+                        <mu-th class="wtcardpool">卡池名称/时间</mu-th>
 
-                        </mu-th>
-
-                        <template v-if="!bypt">
-                            <mu-th>UR</mu-th>
-                            <mu-th>SSR</mu-th>
-                            <mu-th>SR</mu-th>
-                        </template>
-
+                        <mu-th v-if="!bypt">UR</mu-th>
+                        <mu-th>SSR</mu-th>
+                        <mu-th v-if="!bypt">SR</mu-th>
                         <mu-th>R</mu-th>
                         <mu-th v-if="bypt">N</mu-th>
-                        <mu-th :class="bypt?'wtavatar-bypt':'wtavatar'">Avatars</mu-th>
+
+                        <mu-th :class="bypt?'wtavatar-bypt':'wtavatar'">社员列表</mu-th>
                     </mu-thead>
                     <mu-tbody>
-                        <mu-tr v-for="log,index in logs" :key="index" :class="bypt?'':'tr-notbypt'">
+                        <mu-tr v-for="(log,index) in logs" :key="index" :class="bypt?'':'tr-notbypt'">
                             <mu-td class="wtcardpool ht60">
-                                <span style="font-size: 115%;">{{log.name}}</span>
-                                <br><span
-                                    style="font-size: 85%">{{ log['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace("T", " ").slice(0, -3)}}</span>
+                                <span>{{log.name}}</span>
+                                <br><span style="font-size: 85%">{{ log['pon_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace("T", " ")}}</span>
                             </mu-td>
 
-                            <template v-if="!bypt">
-                                <mu-td class="ht60">{{log['ur_cnt']}}</mu-td>
-                                <mu-td class="ht60">{{log['ssr_cnt']}}</mu-td>
-                                <mu-td class="ht60">{{log['sr_cnt']}}</mu-td>
-                            </template>
+                            <mu-td class="ht60" v-if="!bypt">{{log['ur_cnt']}}</mu-td>
+                            <mu-td class="ht60">{{log['ssr_cnt']}}</mu-td>
+                            <mu-td class="ht60" v-if="!bypt">{{log['sr_cnt']}}</mu-td>
+                            <mu-td class="ht60">{{log['rare_cnt']}}</mu-td>
+                            <mu-td class="ht60" v-if="bypt">{{log['normal_cnt']}}</mu-td>
 
-                            <mu-td class="ht60">{{log['r_cnt']}}</mu-td>
-                            <mu-td class="ht60" v-if="bypt">{{log['n_cnt']}}</mu-td>
                             <mu-td :class="bypt?'wtavatar-bypt':'wtavatar'+' ht60'">
-                                <mu-avatar v-for="unitid,indexu in log['result_unit_ids']" :key="indexu"
-                                           :src="getavatarsrc(unitid)"
-                                           v-if="bypt?(!notshown || (log['result_rarity_ids'][indexu] != 1)):(showr || (log['result_rarity_ids'][indexu] != 2))"></mu-avatar>
+                                <mu-avatar v-for="(unit,indexu) in log['units']" :key="indexu"
+                                           :src="getavatarsrc(unit)"
+                                           v-if="bypt?(!notshown || (unit['rarity'] !== 1)):(showr || (unit['rarity'] !== 2))"></mu-avatar>
                             </mu-td>
                         </mu-tr>
                     </mu-tbody>
@@ -77,6 +69,7 @@
     import axios from 'axios'
     import bus from '../bus.js'
     import util from '../util.js'
+
     const showrkey = "secretbox_showr";
     const notshownkey = "secretbox_notshown";
     export default {
@@ -129,7 +122,7 @@
             },
             fetchData (reload = true) {
 
-                this.error = this.userinfo = null;
+                this.error = null;
                 reload && (this.loadingapi = true);
                 // replace getPost with your data fetching util / API wrapper
                 const vm = this;
@@ -138,7 +131,7 @@
                         uid: vm.$route.params.id,
                         limit: vm.limit,
                         page: vm.page,
-                        filter: this.bypt ? "1,61" : "-1,-61"
+                        type: this.bypt ? 1 : 0
                     }
                 })
                     .then(function (response) {
@@ -155,10 +148,13 @@
                     })
 
             },
-            getavatarsrc(unit_id) {
-                if (unit_id > 0) {
-                    const urls = util.icon_root + unit_id + "/0.png";
-                    return urls
+            getavatarsrc(unit) {
+                if (unit && unit['rank_max_icon_asset']) {
+                    if (unit['rank'] === 2) {
+                        return util.asset_root + unit['rank_max_icon_asset'];
+                    } else {
+                        return util.asset_root + unit['normal_icon_asset'];
+                    }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
                 }

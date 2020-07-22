@@ -37,7 +37,7 @@
                             <mu-td class="cursor-pointer" @click="goto_live(live['live_setting_id'])">
                                 <span>{{getmapname(live)}}</span>
                                 <br>
-                                <span style="font-size: 85%">{{ live['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace("T", " ")}}</span>
+                                <span style="font-size: 85%">{{ live['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace('202', "2").replace("T", " ")}}</span>
                             </mu-td>
 
                             <mu-td>{{live['score']}}</mu-td>
@@ -155,7 +155,7 @@
                     .catch(function (err) {
                         this.error = err.toString();
                         console.log(err);
-                    })
+                    });
 
                 axios.get(util.api_server + 'llproxy/userInfo/', {
                     params: {
@@ -183,7 +183,7 @@
             getmapname(live) {
                 if (live['live_setting_id']) {
                     const difficulty_list = ["", "EASY", "NORMAL", "HARD", "EXPERT", "EXPERT", "MASTER"];
-                    return live['name'] + (live['isRandom'] ? "(随机)" : "") + (live['ac_flag'] === 1 ? "(街机)" : "") +
+                    return live['name'] + (live['is_random'] ? "(随机)" : "") + (live['ac_flag'] === 1 ? "(街机)" : "") +
                         (live['swing_flag'] === 1 ? "(滑键)" : "") +
                         " [" + difficulty_list[live['difficulty']] + "/" + live['stage_level'] + "]";
                 } else {

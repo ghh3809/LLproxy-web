@@ -13,7 +13,7 @@ if (window.location.protocol === 'https:') {
     live_map = "http://114.55.102.93:8080/dist/maps_dict.min.json";
 }
 const debug = false;
-const api_server = debug?"http://localhost:8090/api/":"http://116.62.149.31/api/";
+const api_server = debug?"http://localhost:8090/api/":"http://kotoumi.top/api/";
 
 
 function getkey(key) {
@@ -57,7 +57,7 @@ export default{
     api_server,
     removable_skill_map,
     live_map,
-    eventlistPromise,
+    // eventlistPromise,
     selectevent,
     getkey,
     setkey

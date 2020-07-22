@@ -1,7 +1,7 @@
 <template>
 
 
-    <mu-row gutter>
+    <mu-row gutter="">
         <mu-col desktop="30" width="100" tablet="33" class="menus">
             <menus ></menus>
         </mu-col>

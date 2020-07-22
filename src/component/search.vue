@@ -7,7 +7,7 @@
         <mu-card class="loading" v-else-if="loading">
             <mu-circular-progress :size="120" :strokeWidth="7"/>
         </mu-card>
-        <mu-card v-else-if="users" style="padding: 15px 0px">
+        <mu-card v-else-if="users" style="padding: 15px 0">
             <mu-card-title title="搜索用户" subTitle="仅被收录的" style=""></mu-card-title>
             <div>
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="false"
@@ -51,7 +51,7 @@
                                 {{user['invite_code']}}
                             </mu-td>
 
-                            <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace("T", " ")}}</mu-td>
+                            <mu-td class="cursor-pointer" @click="goto_user(user['uid'])">{{user['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace('202', "2").replace("T", " ")}}</mu-td>
 
                         </mu-tr>
                     </mu-tbody>
@@ -90,7 +90,7 @@
         created () {
             // 组件创建完后获取数据，
             // 此时 data 已经被 observed 了
-            this.fetchData()
+            this.fetchData();
             bus.$emit('setnavi', null)
         },
         watch: {
@@ -110,7 +110,7 @@
                 this.$router.push("/user/" + uid)
             },
             add_user(userinfo){
-                bus.$emit('add', userinfo)
+                bus.$emit('add', userinfo);
                 this.topPopup = true
             },
             fetchData (reload = true) {

@@ -215,7 +215,7 @@
 
             },
             getavatarsrc() {
-                if (this.userinfo && this.userinfo['navi_unit_info']) {
+                if (this.userinfo && this.userinfo['navi_unit_info'] && this.userinfo['navi_unit_info']['rank_max_icon_asset']) {
                     if (this.userinfo['navi_unit_info']['display_rank'] === 2) {
                         return util.asset_root + this.userinfo['navi_unit_info']['rank_max_icon_asset'];
                     } else {

@@ -20,7 +20,7 @@
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true"
                           :height="logs.length>10?'560px':'auto'">
                     <mu-thead slot="header">
-                        <mu-th class="wtcardpool">卡池名称 /时间
+                        <mu-th class="wtcardpool">卡池名称/时间
 
                         </mu-th>
 
@@ -35,9 +35,9 @@
                         <mu-th :class="bypt?'wtavatar-bypt':'wtavatar'">Avatars</mu-th>
                     </mu-thead>
                     <mu-tbody>
-                        <mu-tr v-for="log,index in logs" :key="index" :class="bypt?'':'tr-notbypt'">
+                        <mu-tr v-for="(log,index) in logs" :key="index" :class="bypt?'':'tr-notbypt'">
                             <mu-td class="wtcardpool">{{log.name}}
-                                <br><span>{{ log['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace("T", " ").slice(0, -3)}}</span>
+                                <br><span>{{ log['update_time'].replace(new Date().getFullYear() + '-', "").replace('202', "2").replace("T", " ").slice(0, -3)}}</span>
                             </mu-td>
 
                             <template v-if="!bypt">
@@ -46,12 +46,12 @@
                                 <mu-td>{{log['sr_cnt']}}</mu-td>
                             </template>
 
-                            <mu-td>{{log['r_cnt']}}</mu-td>
-                            <mu-td v-if="bypt">{{log['n_cnt']}}</mu-td>
+                            <mu-td>{{log['rare_cnt']}}</mu-td>
+                            <mu-td v-if="bypt">{{log['normal_cnt']}}</mu-td>
                             <mu-td :class="bypt?'wtavatar-bypt':'wtavatar'">
-                                <mu-avatar v-for="unitid,indexu in log['result_unit_ids']" :key="indexu"
+                                <mu-avatar v-for="(unitid,indexu) in log['result_unit_ids']" :key="indexu"
                                            :src="getavatarsrc(unitid)"
-                                           v-if="bypt?(!notshown || (log['result_rarity_ids'][indexu] != 1)):(showr || (log['result_rarity_ids'][indexu] != 2))"></mu-avatar>
+                                           v-if="bypt?(!notshown || (log['result_rarity_ids'][indexu] !== 1)):(showr || (log['result_rarity_ids'][indexu] !== 2))"></mu-avatar>
                             </mu-td>
                         </mu-tr>
                     </mu-tbody>
@@ -98,12 +98,12 @@
 
         methods: {
             handlepage (newIndex) {
-                this.page = newIndex
-                this.fetchData(false)
+                this.page = newIndex;
+                this.fetchData(false);
                 document.getElementsByClassName('mu-table')[1].parentElement.scrollTop = 0
             },
             changept(){
-                this.page = 1
+                this.page = 1;
                 this.fetchData(false)
             },
             fetchData (reload = true) {
@@ -136,8 +136,7 @@
             },
             getavatarsrc(unit_id) {
                 if (unit_id > 0) {
-                    const urls = util.icon_root + unit_id + "/0.png";
-                    return urls
+                    return util.icon_root + unit_id + "/0.png"
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
                 }

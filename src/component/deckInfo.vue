@@ -75,18 +75,18 @@
             </mu-list>
         </mu-bottom-sheet>
         <mu-dialog :open="dialog" title="查卡器导入码" @close="close">
-            <mu-text-field v-model="export_code" fullWidth></mu-text-field>
+            <mu-text-field v-model="export_code" fullWidth=""></mu-text-field>
             <br/>
-            <mu-flat-button v-if="export_code!='获取失败'" slot="actions" v-clipboard:copy="export_code"
+            <mu-flat-button v-if="export_code!=='获取失败'" slot="actions" v-clipboard:copy="export_code"
                             v-clipboard:success="onCopy"
-                            v-clipboard:error="onError" primary label="复制"></mu-flat-button>
-            <mu-flat-button slot="actions" v-else primary label="关闭" @click="close()"></mu-flat-button>
+                            v-clipboard:error="onError" primary="" label="复制"></mu-flat-button>
+            <mu-flat-button slot="actions" v-else primary="" label="关闭" @click="close()"></mu-flat-button>
         </mu-dialog>
         <mu-dialog :open="statusdialog" title="SIFStats" @close="close">
-            <mu-text-field v-model="export_status" fullWidth multiLine :rowsMax="10"></mu-text-field>
+            <mu-text-field v-model="export_status" fullWidth="" multiLine="" :rowsMax="10"></mu-text-field>
             <br/>
             <mu-flat-button slot="actions" v-clipboard:copy="export_status" v-clipboard:success="onCopy"
-                            v-clipboard:error="onError" primary label="复制"></mu-flat-button>
+                            v-clipboard:error="onError" primary="" label="复制"></mu-flat-button>
         </mu-dialog>
         <mu-toast v-if="toast" :message="toast" @close="hideToast"/>
     </div>
