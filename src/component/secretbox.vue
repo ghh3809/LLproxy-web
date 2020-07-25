@@ -16,7 +16,7 @@
 
             <mu-content-block style="margin-left: 10px">
                 <mu-switch label="切换 普通生招募" v-model="bypt"></mu-switch>
-                <mu-switch v-if="bypt" style="margin-left: 20px" label="不显示 N" v-model="notshown"></mu-switch>
+                <mu-switch v-if="bypt" style="margin-left: 20px" label="显示 N" v-model="shown"></mu-switch>
                 <mu-switch v-else style="margin-left: 20px" label="显示 R" v-model="showr"></mu-switch>
             </mu-content-block>
             <div>
@@ -49,7 +49,7 @@
                             <mu-td :class="bypt?'wtavatar-bypt':'wtavatar'+' ht60'">
                                 <mu-avatar v-for="(unit,indexu) in log['units']" :key="indexu"
                                            :src="getavatarsrc(unit)"
-                                           v-if="bypt?(!notshown || (unit['rarity'] !== 1)):(showr || (unit['rarity'] !== 2))"></mu-avatar>
+                                           v-if="bypt?(shown || (unit['rarity'] !== 1)):(showr || (unit['rarity'] !== 2))"></mu-avatar>
                             </mu-td>
                         </mu-tr>
                     </mu-tbody>
@@ -71,7 +71,7 @@
     import util from '../util.js'
 
     const showrkey = "secretbox_showr";
-    const notshownkey = "secretbox_notshown";
+    const shownkey = "secretbox_shown";
     export default {
         data(){
             return {
@@ -83,7 +83,7 @@
                 error: null,
                 bypt: false,
                 showr: util.getkey(showrkey) === 'true',
-                notshown: util.getkey(notshownkey)=== 'true'
+                shown: util.getkey(shownkey) === 'true'
             }
         },
         created () {
@@ -101,7 +101,7 @@
             '$route': 'fetchData',
             'bypt': 'changept',
             'showr': 'handleshowr',
-            'notshown': 'handlenotshown'
+            'shown': 'handleshown'
         },
 
         methods: {
@@ -113,8 +113,8 @@
             handleshowr (){
                 util.setkey(showrkey, this.showr)
             },
-            handlenotshown (){
-                util.setkey(notshownkey, this.notshown)
+            handleshown (){
+                util.setkey(shownkey, this.shown)
             },
             changept(){
                 this.page = 1;

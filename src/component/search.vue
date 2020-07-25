@@ -192,4 +192,15 @@
         cursor: pointer;
         height: 70px;
     }
+
+    .demo-badge-content {
+        padding: 6px;
+        margin-top: 10px;
+
+        .mu-badge {
+            background-color: inherit;
+            color: inherit;
+        }
+
+    }
 </style>

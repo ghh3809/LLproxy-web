@@ -3,7 +3,7 @@
         <mu-paper class="demo-menu">
             <mu-menu class="mm" :autoWidth="false">
                 <mu-menu-item title="个人信息" leftIcon="face" @click="goto('/user/'+getID())"></mu-menu-item>
-<!--                <mu-menu-item title="队伍信息" leftIcon="group" @click="goto('/user/'+getID()+'/deck')"></mu-menu-item>-->
+                <mu-menu-item title="队伍信息" leftIcon="group" @click="goto('/user/'+getID()+'/deck')"></mu-menu-item>
                 <mu-menu-item title="社员信息" leftIcon="person" @click="goto('/user/'+getID()+'/units')"></mu-menu-item>
                 <mu-divider/>
 <!--                <mu-menu-item title="当前活动" inset @click="goto_event()"></mu-menu-item>-->
@@ -46,13 +46,13 @@
                 this.user_list = user_list
 
             });
-            const vm = this;
-            this.loadingevent = true;
-            util.eventlistPromise().then(function (result) {
-                vm.event_type = result.sltevent_type;
-            }).catch(function (e) {
-                vm.error = e
-            });
+            // const vm = this;
+            // this.loadingevent = true;
+            // util.eventlistPromise().then(function (result) {
+            //     vm.event_type = result.sltevent_type;
+            // }).catch(function (e) {
+            //     vm.error = e
+            // });
 
         },
         methods: {
@@ -75,29 +75,29 @@
                     this.$router.push(path)
                 }
             },
-            goto_event(){
-                if (this.event_type) {
-                    let path = '/user/' + this.getID() + '/';
-                    switch (this.event_type) {
-                        case 1:
-                            path+='marathon';
-                            break;
-                        case 2:
-                            path+='battle';
-                            break;
-                        case 3:
-                            path+='festival';
-                            break;
-                        case 4:
-                            path+='challenge';
-                            break;
-                        case 5:
-                            path+='quest';
-                            break;
-                    }
-                    this.goto(path)
-                }
-            }
+            // goto_event(){
+            //     if (this.event_type) {
+            //         let path = '/user/' + this.getID() + '/';
+            //         switch (this.event_type) {
+            //             case 1:
+            //                 path+='marathon';
+            //                 break;
+            //             case 2:
+            //                 path+='battle';
+            //                 break;
+            //             case 3:
+            //                 path+='festival';
+            //                 break;
+            //             case 4:
+            //                 path+='challenge';
+            //                 break;
+            //             case 5:
+            //                 path+='quest';
+            //                 break;
+            //         }
+            //         this.goto(path)
+            //     }
+            // }
         }
     }
 </script>

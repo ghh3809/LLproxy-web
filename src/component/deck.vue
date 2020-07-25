@@ -4,12 +4,49 @@
             <p>获取数据失败, 请重试或刷新, 或者并无记录</p>
             <!--<pre>{{error}}</pre>-->
         </mu-card>
-        <mu-card v-else-if="loadingapi || loadingmap" class="loading">
+        <mu-card v-else-if="loadingapi" class="loading">
             <mu-circular-progress :size="120" :strokeWidth="7"/>
         </mu-card>
-        <div v-else-if="decks">
-            <router-view :decks="decks" :skills="skills"></router-view>
-        </div>
+        <mu-card v-else-if="decks" style="padding: 15px 0">
+
+            <mu-card-title title="队伍" subTitle="当前队伍（点击队伍名可导出至LLHelper）" style=""></mu-card-title>
+
+            <p style="font-size: 70%; color: gray; margin-left: 15px">*成员未显示时，可能尚未获取到社员信息</p>
+            <p style="font-size: 70%; color: gray; margin-left: 15px">**队伍信息可用于<a href='http://llhelper.com/llnewunit'>LLHelper-队伍强度、得分计算</a>。
+                由于LLHelper限制，未识别成员将使用1号成员<span style="color: deeppink">桜坂しずく</span>代替</p>
+
+            <div>
+                <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="false" height="auto">
+
+                    <mu-tbody>
+                        <mu-tr :class="deck.main_flag ?'main-flag':false" v-for="(deck,index) in decks" :key="index">
+                            <td class="wt100">
+                                <mu-flat-button @click="export_deck(deck['unit_deck_id'])" :label="deck.deck_name"
+                                                class="demo-flat-button" labelPosition="before" icon="import_export"
+                                                secondary=""></mu-flat-button>
+                            </td>
+                            <td class="wt10" v-for="unit in deck.units">
+                                <mu-badge class="demo-badge-content" circle="" color="redA100" v-if="unit['unit_id']"
+                                          :content="unit['level']">
+                                    <mu-avatar class="avatar" :src="getavatarsrc(unit)" :size="55"></mu-avatar>
+                                </mu-badge>
+                                <mu-badge class="demo-badge-content" v-else>
+                                    <mu-avatar class="avatar" :src="getavatarsrc(unit)" :size="55"></mu-avatar>
+                                </mu-badge>
+                                <br>
+                                <div style="font-size: 75%" v-if="unit['unit_id']">
+                                    {{unit.unit_skill_level}}级 / {{unit.unit_removable_skill_capacity}}孔
+                                </div>
+                                <div style="font-size: 20%; text-align: center" v-else>
+                                    {{'- / -'}}
+                                </div>
+                            </td>
+                            <td style="width: 10px"></td>
+                        </mu-tr>
+                    </mu-tbody>
+                </mu-table>
+            </div>
+        </mu-card>
 
     </div>
 </template>
@@ -23,18 +60,15 @@
         data(){
             return {
                 loadingapi: true,
-                loadingmap: true,
                 decks: null,
-                skills: null,
                 error:null
-
             }
         },
         created () {
             // 组件创建完后获取数据，
             // 此时 data 已经被 observed 了
             this.fetchData();
-            this.fetchMap();
+            // this.fetchMap();
             bus.$on('refresh', () => {
 
                 this.fetchData()
@@ -47,20 +81,16 @@
         },
 
         methods: {
-            fetchMap (reload = true){
-                reload && (this.loadingmap = true);
-                const vm = this;
-                const map_url = util.removable_skill_map;
-                axios.get(map_url)
-                    .then(function (response) {
-                        vm.skills = response.data;
-                        reload && (vm.loadingmap = false);
-                    })
-                    .catch(function (err) {
-                        this.error = err.toString();
-                        console.log(err)
-
-                    })
+            getavatarsrc(unit) {
+                if (unit && unit['rank_max_icon_asset']) {
+                    if (unit['display_rank'] === 2) {
+                        return util.asset_root + unit['rank_max_icon_asset'];
+                    } else {
+                        return util.asset_root + unit['normal_icon_asset'];
+                    }
+                } else {
+                    return util.asset_root + "assets/image/ui/common/com_win_22.png"
+                }
             },
             fetchData (reload = true) {
 
@@ -76,6 +106,7 @@
                     .then(function (response) {
                         reload && (vm.loadingapi = false);
                         vm.decks = response.data.result.deck_info;
+
                     })
                     .catch(function (err) {
                         this.error = err.toString();
@@ -84,9 +115,9 @@
                     })
 
             },
-
-
-
+            export_deck(index) {
+                window.open(util.api_server + "llproxy/deckExport/?uid=" + this.$route.params.id + "&unitDeckId=" + index)
+            },
         }
     }
 </script>
@@ -137,5 +168,24 @@
 
     .fade-enter, .fade-leave-active {
         opacity: 0
+    }
+
+    .wt10 {
+        width: 70px;
+    }
+
+    .wt100 {
+        /*text-align: left;*/
+        width: 125px;
+    }
+
+    .livetable {
+        width: auto;
+        height: auto;
+        text-align: center;
+    }
+
+    .main-flag {
+        background-color: #f3e5f5;
     }
 </style>

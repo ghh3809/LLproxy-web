@@ -15,7 +15,7 @@
                 <mu-raised-button style="margin-left: 15px" icon="import_export"
                                   labelPosition="before" secondary=""
                                   label="导出卡组JSON"
-                                  @click="export_llhelper()"></mu-raised-button>
+                                  @click="export_units()"></mu-raised-button>
 
                 <span style="margin-left: 18px">JSON信息可用于 <a target="_blank" href="http://llhelper.com/llnewautounit">LLHelper-自动组队</a></span>
             </mu-card-text>
@@ -37,8 +37,8 @@
 
                                 <mu-badge class="demo-badge-content" circle="" v-if="unit['is_rank_max']">
                                     <mu-avatar :src="getavatarsrc(unit)" :size="50"></mu-avatar>
-                                    <mu-icon value="stars" slot="content" color="pinkA100" size="20" v-if="unit['is_love_max'] && unit['is_level_max']"></mu-icon>
-                                    <mu-icon value="face" slot="content" color="green" size="20" v-else=""></mu-icon>
+                                    <mu-icon value="stars" slot="content" color="pinkA100" v-if="unit['is_love_max'] && unit['is_level_max']"></mu-icon>
+                                    <mu-icon value="face" slot="content" color="green" v-else=""></mu-icon>
                                 </mu-badge>
                                 <mu-badge class="demo-badge-content" v-else>
                                     <mu-avatar :src="getavatarsrc(unit)" :size="50"></mu-avatar>
@@ -105,7 +105,7 @@
         },
 
         methods: {
-            export_llhelper() {
+            export_units() {
                 window.open(util.api_server + "llproxy/unitsExport/?uid=" + this.$route.params.id)
             },
             handlepage (newIndex) {
