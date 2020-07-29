@@ -10,9 +10,9 @@
 
             <mu-card-title title="Live" subTitle="被收录的live（点击歌曲名或活动名进行筛选）" style=""></mu-card-title>
             <div style="text-align: right">
-                <mu-text-field style="text-align: left" v-model="keyword" hint-text="歌曲名/活动名" icon="search" @keydown.enter.native="search_live()"></mu-text-field>
-                <mu-flat-button @click="search_live()">筛选</mu-flat-button>
-                <mu-flat-button @click="goto_live()">重置</mu-flat-button>
+                <mu-text-field style="text-align: left; margin-right: 15px" v-model="keyword" hint-text="歌曲名/活动名" icon="search" @keydown.enter.native="search_live()"></mu-text-field>
+                <mu-raised-button @click="search_live()" secondary="" style="margin-right: 15px">筛选</mu-raised-button>
+                <mu-raised-button @click="goto_live()" secondary="" style="margin-right: 15px">重置</mu-raised-button>
             </div>
             <mu-divider></mu-divider>
             <div>

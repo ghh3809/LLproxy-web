@@ -13,7 +13,7 @@
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="false"
                           :height="users.length?'400px':'70px'">
                     <mu-thead slot="header">
-                        <mu-th>加入左侧</mu-th>
+                        <mu-th>设为默认</mu-th>
                         <mu-th class="mt-avatar">看板</mu-th>
                         <mu-th>昵称</mu-th>
                         <mu-th>等级</mu-th>

@@ -43,6 +43,8 @@
                    iOS WLAN设置方法：设置 -> Wi-Fi -> 网络详情 -> 配置DNS -> 更改为手动 -> 删除原有DNS，输入新的DNS
                    </code>
                    <br><br>
+                   检查DNS是否设置成功：<a href="http://prod.game1.ll.sdo.com/kotoumi/">测试地址</a>，若可以正常访问，则表示设置成功。
+                   <br><br>
                    若要停止使用，删除设置的DNS即可，之后您的数据将不会再被记录。
                </mu-card-text>
 

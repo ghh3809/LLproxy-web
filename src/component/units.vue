@@ -10,15 +10,18 @@
         <mu-card v-else-if="units" style="padding: 15px 0">
 
             <mu-card-title title="社员信息" subTitle="所有社员(SR及以上，仅已收录社员)" style=""></mu-card-title>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">*卡组信息可用于 <a target="_blank" href="http://llhelper.com/llnewautounit">LLHelper-自动组队</a></p>
 
-            <mu-card-text>
-                <mu-raised-button style="margin-left: 15px" icon="import_export"
-                                  labelPosition="before" secondary=""
-                                  label="导出卡组JSON"
-                                  @click="export_units()"></mu-raised-button>
+            <mu-checkbox label="包含SSR" class="checkbox" v-model="ssr" :change="filter_units()"></mu-checkbox>
+            <mu-checkbox label="包含SR" class="checkbox" v-model="sr" :change="filter_units()"></mu-checkbox>
+            <mu-checkbox label="包含预备教室" class="checkbox" v-model="back" :change="filter_units()"></mu-checkbox>
+<!--            <mu-raised-button style="margin-left: 15px; margin-bottom: 15px" secondary="" label="筛选"-->
+<!--                              @click="filter_units()"></mu-raised-button>-->
+            <mu-raised-button style="margin-left: 15px; margin-bottom: 15px" icon="import_export"
+                              labelPosition="before" secondary=""
+                              label="导出卡组JSON"
+                              @click="export_units()"></mu-raised-button>
 
-                <span style="margin-left: 18px">JSON信息可用于 <a target="_blank" href="http://llhelper.com/llnewautounit">LLHelper-自动组队</a></span>
-            </mu-card-text>
             <mu-divider></mu-divider>
             <div>
                 <mu-table ref="infotable" :selectable="false" :showCheckbox="false" :fixedHeader="false" height="600px">
@@ -85,6 +88,9 @@
                 units: null,
                 page: 1,
                 limit: 15,
+                ssr: false,
+                sr: false,
+                back: false,
                 count: null,
                 error: null
             }
@@ -105,8 +111,20 @@
         },
 
         methods: {
+            filter_units() {
+                this.$router.push({
+                    path:this.$route.path,
+                    query:{
+                        ssr: this.ssr ? 1 : undefined,
+                        sr: this.sr ? 1 : undefined,
+                        back: this.back ? 1 : undefined
+                    }
+                })
+            },
             export_units() {
-                window.open(util.api_server + "llproxy/unitsExport/?uid=" + this.$route.params.id)
+                const uri = "llproxy/unitsExport/?uid=" + this.$route.params.id +
+                    (this.ssr ? "&ssr=1" : "") + (this.sr ? "&sr=1" : "") + (this.back ? "&back=1" : "");
+                window.open(util.api_server + uri);
             },
             handlepage (newIndex) {
                 this.page = newIndex;
@@ -123,7 +141,10 @@
                     params: {
                         uid: vm.$route.params.id,
                         limit: vm.limit,
-                        page: vm.page
+                        page: vm.page,
+                        ssr: vm.ssr ? 1 : undefined,
+                        sr: vm.sr ? 1 : undefined,
+                        back: vm.back ? 1 : undefined
                     }
                 })
                     .then(function (response) {
@@ -186,7 +207,8 @@
         white-space: normal;
     }
 
-    .mt-avatar {
-
+    .checkbox {
+        margin-left: 15px;
+        vertical-align: middle;
     }
 </style>

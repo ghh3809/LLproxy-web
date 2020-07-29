@@ -83,9 +83,7 @@
             }
 
             bus.$on('add', (userinfo) => {
-                if (!this.savedlist) {
-                    this.user_list = {};
-                }
+                this.user_list = {};
                 this.user_list['' + userinfo.uid] = userinfo;
                 this.savedlist = this.user_list;
                 bus.$emit('set', this.user_list);
