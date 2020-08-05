@@ -47,7 +47,7 @@
             </mu-card-header>
             <mu-divider></mu-divider>
             <div class="content-info">
-                <mu-card-title title="一些道具" subTitle="Loveca/ Coin/ 友情pt" class="mt8" />
+                <mu-card-title title="一些道具" subTitle="Loveca/Coin/友情pt" class="mt8" />
                 <mu-card-text>
                     <mu-flexbox>
                         <mu-flexbox-item class="flex-demo">
@@ -77,7 +77,7 @@
                         <mu-flexbox-item />
                     </mu-flexbox>
                 </mu-card-text>
-                <mu-card-title title="基本" subTitle="" class="mt8"/>
+                <mu-card-title title="基本信息" subTitle="Info" class="mt8"/>
                 <mu-card-text>
                     <mu-flexbox class="">
                         <mu-flexbox-item class="flex-demo">

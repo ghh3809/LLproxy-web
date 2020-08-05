@@ -158,6 +158,19 @@
                         this.error = err.toString();
                         console.log(err)
 
+                    });
+
+                axios.get(util.api_server + 'llproxy/userInfo/', {
+                    params: {
+                        uid: vm.$route.params.id,
+                    }
+                })
+                    .then(function (response) {
+                        bus.$emit('update', response.data['result'])
+                    })
+                    .catch(function (err) {
+                        this.error = err.toString();
+                        console.log(err)
                     })
 
 

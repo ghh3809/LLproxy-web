@@ -11,7 +11,8 @@
 
             <mu-card-title title="队伍" subTitle="当前队伍（点击队伍名可导出至LLHelper）" style=""></mu-card-title>
 
-            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">*队伍未显示时，更换下主力队伍并返回主页即可；成员未显示时，可能尚未获取到社员信息</p>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">*队伍未显示时，更换下主力队伍并返回主页即可；
+                成员未显示时，可以通过打歌获取到成员信息，但孔数将均被设置为<span style="color: deeppink">4孔</span></p>
             <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">**队伍信息可用于<a href='http://llhelper.com/llnewunit'>LLHelper-队伍强度、得分计算</a>。
                 由于LLHelper限制，未识别成员将使用1号成员<span style="color: deeppink">桜坂しずく</span>代替</p>
 
@@ -27,7 +28,7 @@
                             </td>
                             <td class="wt10" v-for="unit in deck.units">
                                 <mu-badge class="demo-badge-content" circle="" color="redA100" v-if="unit['unit_id']"
-                                          :content="unit['level']">
+                                          :content="unit['level'].toString()">
                                     <mu-avatar class="avatar" :src="getavatarsrc(unit)" :size="55"></mu-avatar>
                                 </mu-badge>
                                 <mu-badge class="demo-badge-content" v-else>
@@ -112,6 +113,19 @@
                         this.error = err.toString();
                         console.log(err)
 
+                    });
+
+                axios.get(util.api_server + 'llproxy/userInfo/', {
+                    params: {
+                        uid: vm.$route.params.id,
+                    }
+                })
+                    .then(function (response) {
+                        bus.$emit('update', response.data['result'])
+                    })
+                    .catch(function (err) {
+                        this.error = err.toString();
+                        console.log(err)
                     })
 
             },

@@ -25,10 +25,11 @@
                         <mu-th class="wtcombo">连击数/总数</mu-th>
                         <mu-th class="wtnotes">P/Gr/G/B/M P率</mu-th>
                         <mu-th class="wtper">活动</mu-th>
+                        <mu-th class="wtper">详情</mu-th>
                     </mu-thead>
                     <mu-tbody>
                         <mu-tr v-for="(live,index) in lives" :key="index" :class="live['ap']?'live-ap':(live['fc']?'live-fc':'')" >
-                            <mu-td @click="goto_live(live['live_setting_id'])">
+                            <mu-td @click="play_sound(live)">
                                 <mu-badge class="demo-badge-content cursor-pointer" >
                                     <mu-avatar :src="getlive_iconsrc(live)" :size="50"></mu-avatar>
                                 </mu-badge>
@@ -57,6 +58,9 @@
 
                             <mu-td class="cursor-pointer" @click="goto_live(undefined, live['event_id'])">
                                 {{live['event_name'] || ("event: " + live['event_id'])}}
+                            </mu-td>
+                            <mu-td class="cursor-pointer" @click="goto_detail(live)">
+                                <mu-icon value="navigate_next"></mu-icon>
                             </mu-td>
                         </mu-tr>
                     </mu-tbody>
@@ -105,7 +109,7 @@
         },
 
         methods: {
-            goto_live(setid, eventid){
+            goto_live(setid, eventid) {
                 this.keyword = "";
                 this.$router.push({
                     path:this.$route.path,
@@ -113,6 +117,11 @@
                         setid: (setid === null) ? undefined : setid,
                         eventid: (eventid === null) ? undefined : eventid
                     }
+                })
+            },
+            goto_detail(live) {
+                this.$router.push({
+                    path:this.$route.path.replace("live", "livedetail") + "/" + live['id']
                 })
             },
             search_live() {

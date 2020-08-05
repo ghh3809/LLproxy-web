@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <mu-card-text>
         <mu-card style="overflow: hidden">
 
             <mu-card-header title="风之筝" sub-title="一只来自海鸟阁的海鸟厨">
@@ -8,7 +8,7 @@
 
             <mu-divider shallowInset=""></mu-divider>
 
-           <div style="padding: 0 10px">
+           <mu-card-text style="padding: 0 10px">
 
                <mu-card-title title="这是什么?" subTitle=" 海鸟个人数据站"/>
                <mu-card-text>
@@ -55,7 +55,16 @@
                    <br>贴吧ID：<a href="https://tieba.baidu.com/home/main?un=%E9%A3%8E%E4%B9%8B%E7%AD%9D3809">风之筝3809</a>
                    <br>bilibili: <a href="https://space.bilibili.com/64501399">风之筝3809</a>
                </mu-card-text>
-           </div>
+
+               <mu-card-title title="更新日志" subTitle=" Updates"/>
+               <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200805</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 增加live详情界面，可以查看live奖励及使用的卡组，并支持导出到LLHelper</div>
+                       <div>2. 针对查看不到队伍信息的玩家，可以从打歌记录中获得相应的队伍信息（我终于看到队伍了，泪奔）</div>
+                   </div>
+               </mu-card-text>
+           </mu-card-text>
         </mu-card>
-    </div>
+    </mu-card-text>
 </template>

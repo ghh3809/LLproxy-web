@@ -22,6 +22,7 @@ import intro from './component/introcuction.vue'
 import userinfo from './component/userInfo.vue'
 import Units from './component/units.vue'
 import Live from './component/live.vue'
+import LiveDetail from './component/livedetail.vue'
 import SecretBox from './component/secretbox.vue'
 import Search from './component/search.vue'
 import Marathon from './component/marathon.vue'
@@ -72,20 +73,14 @@ const router = new VueRouter({
                 {
                     path: ':id/deck',
                     component: Deck,
-                    children: [
-                        {
-                            path: '',
-                            component: DeckInfo
-                        },
-                        // {
-                        //     path: ':deckid',
-                        //     component: DeckSingle
-                        // }
-                    ]
                 },
                 {
                     path: ':id/live',
                     component: Live
+                },
+                {
+                    path: ':id/livedetail/:liveid',
+                    component: LiveDetail
                 },
                 {
                     path: ':id/secretbox',
@@ -128,7 +123,7 @@ const router = new VueRouter({
         },
 
     ]
-})
+});
 new Vue({
     el: '#app',
     router,
