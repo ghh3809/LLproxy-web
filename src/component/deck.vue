@@ -56,6 +56,7 @@
     import axios from 'axios'
     import bus from '../bus.js'
     import util from '../util.js'
+    import Cookies from 'js-cookie'
 
     export default {
         data(){
@@ -102,6 +103,7 @@
                 axios.get(util.api_server + 'llproxy/deckInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {
@@ -118,6 +120,7 @@
                 axios.get(util.api_server + 'llproxy/userInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {
@@ -130,7 +133,13 @@
 
             },
             export_deck(index) {
-                window.open(util.api_server + "llproxy/deckExport/?uid=" + this.$route.params.id + "&unitDeckId=" + index)
+                let uri = "llproxy/deckExport/?uid=" + this.$route.params.id + "&unitDeckId=" + index;
+                if (Cookies.get('dbLocalize') === 'JP') {
+                    uri += "&lang=JP";
+                } else {
+                    uri += "&lang=CN";
+                }
+                window.open(util.api_server + uri)
             },
         }
     }

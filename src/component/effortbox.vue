@@ -2,21 +2,14 @@
     <div>
         <mu-card class="loading" v-if="error">
             <p>获取数据失败, 请重试或刷新, 或者并无记录</p>
-            <!--<pre>{{error}}</pre>-->
         </mu-card>
         <mu-card class="loading" v-else-if="loadingapi">
             <mu-circular-progress :size="120" :strokeWidth="7"/>
         </mu-card>
-        <mu-card v-else-if="logs && passet" style="padding: 15px 0px">
-            <!--<mu-card-header title="Myron Avatar" subTitle="sub title">-->
-            <!--<mu-avatar src="/images/uicon.jpg" slot="avatar"/>-->
-            <!--</mu-card-header>-->
+        <mu-card v-else-if="logs && passet" style="padding: 15px 0">
 
             <mu-card-title title="奖励箱" subTitle="live 奖励宝箱" style=""></mu-card-title>
 
-            <mu-content-block style="margin-left: 10px">
-                <mu-switch label="洒脱一下" v-model="satuo"></mu-switch>
-            </mu-content-block>
             <div>
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true"
                           :height="(logs.length>=10 || page>1)  ?'560px':'auto'">
@@ -29,7 +22,7 @@
 
                     </mu-thead>
                     <mu-tbody>
-                        <mu-tr v-for="log,index in logs" :key="index">
+                        <mu-tr v-for="(log,index) in logs" :key="index">
                             <mu-td class="wtcardpool ht70" style="text-align: center;">
                                 <span style="font-size: 125%">{{('' + log.capacity).slice(0, -4) + ' W'}}</span>
                                 <br><span
@@ -38,14 +31,11 @@
                             <mu-td class="ht70" v-for="n in 3" :key="n-1">
                                 <template v-if="log.rewards[n-1]">
                                     <img :src="getavatarsrc(log.rewards[n-1].item_id)"
-                                         v-if="log.rewards[n-1].type==1001" style="max-width: 40px;">
+                                         v-if="log.rewards[n-1].type===1001" style="max-width: 40px;" alt="">
                                     <img v-else="" class="skill"
-                                         :src="util.asset_root +(log.rewards[n-1].asset || passet[''+log.rewards[n-1].type])">
-                                    <span v-if="satuo">{{log.rewards[n - 1].name.replace('Smile', '甜美').replace('Pure', '清纯').replace('Cool', '洒脱')}}</span>
-                                    <span v-else>{{log.rewards[n - 1].name.replace('甜美', 'Smile').replace('清纯', 'Pure').replace('洒脱', 'Cool')}}</span>
-
-                                    <span
-                                            v-if="log.rewards[n-1].amount>1"> x{{log.rewards[n - 1].amount}}</span>
+                                         :src="util.asset_root +(log.rewards[n-1].asset || passet[''+log.rewards[n-1].type])" alt="">
+                                    <span>{{log.rewards[n - 1].name}}</span>
+                                    <span v-if="log.rewards[n-1].amount>1"> x{{log.rewards[n - 1].amount}}</span>
                                 </template>
                             </mu-td>
                         </mu-tr>
@@ -76,9 +66,6 @@
                 limit: 10,
                 count: null,
                 error: null,
-                satuo: false,
-                showr: false,
-                notshown: false,
                 passet: null,
                 util:util
             }
@@ -86,7 +73,7 @@
         created () {
             // 组件创建完后获取数据，
             // 此时 data 已经被 observed 了
-            this.fetchData()
+            this.fetchData();
             bus.$on('refresh', () => {
 
                 this.fetchData()
@@ -95,19 +82,14 @@
         },
         watch: {
             // 如果路由有变化，会再次执行该方法
-            '$route': 'fetchData',
-            'bypt': 'changept'
+            '$route': 'fetchData'
         },
 
         methods: {
             handlepage (newIndex) {
-                this.page = newIndex
-                this.fetchData(false)
+                this.page = newIndex;
+                this.fetchData(false);
                 document.getElementsByClassName('mu-table')[1].parentElement.scrollTop = 0
-            },
-            changept(){
-                this.page = 1
-                this.fetchData(false)
             },
             fetchData (reload = true) {
 
@@ -120,7 +102,6 @@
                         uid: vm.$route.params.id,
                         limit: vm.limit,
                         page: vm.page,
-//                        filter: this.bypt ? "1,61" : "-1,-61"
                     }
                 })
                     .then(function (response) {
@@ -140,8 +121,7 @@
             },
             getavatarsrc(unit_id) {
                 if (unit_id > 0) {
-                    const urls = util.icon_root + unit_id + "/0.png";
-                    return urls
+                    return util.icon_root + unit_id + "/0.png"
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
                 }

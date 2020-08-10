@@ -11,8 +11,8 @@
             <mu-card-title title="Live" subTitle="被收录的live（点击歌曲名或活动名进行筛选）" style=""></mu-card-title>
             <div style="text-align: right">
                 <mu-text-field style="text-align: left; margin-right: 15px" v-model="keyword" hint-text="歌曲名/活动名" icon="search" @keydown.enter.native="search_live()"></mu-text-field>
-                <mu-raised-button @click="search_live()" secondary="" style="margin-right: 15px">筛选</mu-raised-button>
-                <mu-raised-button @click="goto_live()" secondary="" style="margin-right: 15px">重置</mu-raised-button>
+                <mu-raised-button @click="search_live()" secondary="" style="margin-right: 15px" label="筛选"></mu-raised-button>
+                <mu-raised-button @click="goto_live()" secondary="" style="margin-right: 15px" label="重置"></mu-raised-button>
             </div>
             <mu-divider></mu-divider>
             <div>
@@ -80,6 +80,7 @@
     import axios from 'axios'
     import bus from '../bus.js'
     import util from '../util.js'
+    import Cookies from 'js-cookie'
 
     export default {
         data(){
@@ -149,8 +150,9 @@
                         page: vm.page,
                         setid: vm.$route.query.setid === null ? undefined : vm.$route.query.setid,
                         eventid: vm.$route.query.eventid === null ? undefined : vm.$route.query.eventid,
-                        keyword: vm.$route.query.keyword === null ? undefined : vm.$route.query.keyword
-                    }
+                        keyword: vm.$route.query.keyword === null ? undefined : vm.$route.query.keyword,
+                        lang: Cookies.get('dbLocalize')
+                    },
                 })
                     .then(function (response) {
 
@@ -169,6 +171,7 @@
                 axios.get(util.api_server + 'llproxy/userInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {

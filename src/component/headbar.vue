@@ -24,8 +24,10 @@
                               @click="goto('/user/'+user.uid)"></mu-menu-item>
                 <mu-menu-item title="清除账号" @click="cleancookie()"></mu-menu-item>
                 <!--<mu-menu-item style="margin-top: 25px" title="关闭侧栏" @click="toggle()"></mu-menu-item>-->
-                <mu-menu-item style="margin-top: 25px" :title="'切换主题 - '+theme"
+                <mu-menu-item style="margin-top: 25px" :title="'切换主题 - ' + theme"
                               @click="switchtheme()"></mu-menu-item>
+                <mu-menu-item :title="'切换数据语言 - ' + lang"
+                              @click="changelang()"></mu-menu-item>
 
             </mu-menu>
 
@@ -64,6 +66,7 @@
                     'Aqours': aqours,
                     'TEAL': teal
                 },
+                lang: 'CN',
             }
         },
         created () {
@@ -80,6 +83,9 @@
                 this.user_list = this.savedlist
             } else {
                 this.user_list = this.defaultlist
+            }
+            if (Cookies.get("dbLocalize") === 'JP') {
+                this.lang = 'JP';
             }
 
             bus.$on('add', (userinfo) => {
@@ -203,6 +209,15 @@
                 styleEl.id = themeId;
                 document.body.appendChild(styleEl);
                 return styleEl
+            },
+            changelang() {
+                if (this.lang === 'CN') {
+                    this.lang = 'JP';
+                } else {
+                    this.lang = 'CN';
+                }
+                Cookies.set('dbLocalize', this.lang, {expires: 365});
+                location.reload();
             }
 
 

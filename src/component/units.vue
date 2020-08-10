@@ -77,9 +77,9 @@
 
 <script>
     import axios from 'axios'
-    import download from 'downloadjs/download.min'
     import bus from '../bus.js'
     import util from '../util.js'
+    import Cookies from 'js-cookie'
 
     export default {
         data(){
@@ -122,8 +122,13 @@
                 })
             },
             export_units() {
-                const uri = "llproxy/unitsExport/?uid=" + this.$route.params.id +
+                let uri = "llproxy/unitsExport/?uid=" + this.$route.params.id +
                     (this.ssr ? "&ssr=1" : "") + (this.sr ? "&sr=1" : "") + (this.back ? "&back=1" : "");
+                if (Cookies.get('dbLocalize') === 'JP') {
+                    uri += "&lang=JP";
+                } else {
+                    uri += "&lang=CN";
+                }
                 window.open(util.api_server + uri);
             },
             handlepage (newIndex) {
@@ -144,7 +149,8 @@
                         page: vm.page,
                         ssr: vm.ssr ? 1 : undefined,
                         sr: vm.sr ? 1 : undefined,
-                        back: vm.back ? 1 : undefined
+                        back: vm.back ? 1 : undefined,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {
@@ -163,6 +169,7 @@
                 axios.get(util.api_server + 'llproxy/userInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {

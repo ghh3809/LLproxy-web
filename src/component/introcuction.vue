@@ -58,6 +58,12 @@
 
                <mu-card-title title="更新日志" subTitle=" Updates"/>
                <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200810</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 支持切换数据语言（感谢<a href="https://card.niconi.co.ni">查卡器</a>和<a href="http://llsif.win/">SIFDB</a>提供的国/日服数据包）</div>
+                       <div>2. 修复了社员数据导出异常的bug</div>
+                   </div>
+                   <br>
                    <div style="font-size: 150%">20200805</div>
                    <div style="margin-left: 30px">
                        <div>1. 增加live详情界面，可以查看live奖励及使用的卡组，并支持导出到LLHelper</div>

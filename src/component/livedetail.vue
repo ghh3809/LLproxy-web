@@ -20,7 +20,7 @@
                                 <br>
                                 <img :src="util.asset_root + live['title_asset']" :alt="live['name']" style="height: 30px" v-if="live['title_asset']">
                                 <br>
-                                <audio controls style="height: 30px; width: 250px" v-if="live['sound_asset']">
+                                <audio controls style="height: 30px; width: 250px; margin-top: 15px" v-if="live['sound_asset']">
                                     <source :src="util.asset_root + live['sound_asset']" type="audio/mpeg">
                                     您的浏览器不支持该音频格式。
                                 </audio>
@@ -36,6 +36,10 @@
                                 <tr>
                                     <td class="list-title">难度：</td>
                                     <td>{{getmapdifficulty(live)}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="list-title">分数：</td>
+                                    <td>{{live['score']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="list-title">COMBO：</td>
@@ -135,6 +139,7 @@
     import axios from 'axios'
     import bus from '../bus.js'
     import util from '../util.js'
+    import Cookies from 'js-cookie'
 
     export default {
         data(){
@@ -162,7 +167,12 @@
 
         methods: {
             export_units() {
-                const uri = "llproxy/liveUnitsExport/?id=" + this.$route.params.liveid;
+                let uri = "llproxy/liveUnitsExport/?id=" + this.$route.params.liveid;
+                if (Cookies.get('dbLocalize') === 'JP') {
+                    uri += "&lang=JP";
+                } else {
+                    uri += "&lang=CN";
+                }
                 window.open(util.api_server + uri);
             },
             fetchData (reload = true) {
@@ -171,7 +181,8 @@
                 const vm = this;
                 axios.get(util.api_server + 'llproxy/liveDetail/', {
                     params: {
-                        id: vm.$route.params.liveid
+                        id: vm.$route.params.liveid,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {
@@ -188,6 +199,7 @@
                 axios.get(util.api_server + 'llproxy/userInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {
@@ -286,14 +298,14 @@
 
     .exp {
         color: white;
-        text-shadow: 0 0 .3em aqua;
+        text-shadow: 0 0 .3em aqua, 0 0 .1em blue;
         font-size: 15px;
         margin-left: 7px;
     }
 
     .love {
         color: white;
-        text-shadow: 0 0 .3em deeppink;
+        text-shadow: 0 0 .3em deeppink, 0 0 .1em purple;
         font-size: 15px;
         margin-left: 7px;
     }

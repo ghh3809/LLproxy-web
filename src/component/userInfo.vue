@@ -139,6 +139,7 @@
     import axios from 'axios'
     import bus from '../bus.js'
     import util from '../util.js'
+    import Cookies from 'js-cookie'
 
     export default {
         data(){
@@ -197,6 +198,7 @@
                 axios.get(util.api_server + 'llproxy/userInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        lang: Cookies.get('dbLocalize')
                     }
                 })
                     .then(function (response) {
