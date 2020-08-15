@@ -13,7 +13,7 @@ Vue.use(MuseUI);
 
 
 import user from './component/user.vue'
-import intro from './component/introcuction.vue'
+import intro from './component/introduction.vue'
 // const userinfo = resolve => require(['./component/userInfo.vue'], resolve)
 // const Units = resolve => require(['./component/units.vue'], resolve)
 // const Live = resolve => require(['./component/live.vue'], resolve)

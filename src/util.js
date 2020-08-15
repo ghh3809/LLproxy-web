@@ -1,6 +1,8 @@
 let asset_root;
+let asset_root2;
 asset_root = "http://r.llsif.win/";
-const debug = false;
+asset_root2 = "https://card.niconi.co.ni/asset/";
+const debug = true;
 const api_server = debug?"http://localhost:8090/api/":"http://kotoumi.top/api/";
 
 
@@ -27,6 +29,7 @@ function selectevent(eventlist) {
 
 export default{
     asset_root,
+    asset_root2,
     api_server,
     selectevent,
     getkey,

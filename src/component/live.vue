@@ -29,7 +29,7 @@
                     </mu-thead>
                     <mu-tbody>
                         <mu-tr v-for="(live,index) in lives" :key="index" :class="live['ap']?'live-ap':(live['fc']?'live-fc':'')" >
-                            <mu-td @click="play_sound(live)">
+                            <mu-td @click="goto_live(live['live_setting_id'])">
                                 <mu-badge class="demo-badge-content cursor-pointer" >
                                     <mu-avatar :src="getlive_iconsrc(live)" :size="50"></mu-avatar>
                                 </mu-badge>

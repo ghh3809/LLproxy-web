@@ -218,10 +218,14 @@
             },
             getavatarsrc() {
                 if (this.userinfo && this.userinfo['navi_unit_info'] && this.userinfo['navi_unit_info']['rank_max_icon_asset']) {
+                    let asset_root = util.asset_root;
+                    if (this.userinfo['navi_unit_info']['unit_number'] >= 10000) {
+                        asset_root = util.asset_root2;
+                    }
                     if (this.userinfo['navi_unit_info']['display_rank'] === 2) {
-                        return util.asset_root + this.userinfo['navi_unit_info']['rank_max_icon_asset'];
+                        return asset_root + this.userinfo['navi_unit_info']['rank_max_icon_asset'];
                     } else {
-                        return util.asset_root + this.userinfo['navi_unit_info']['normal_icon_asset'];
+                        return asset_root + this.userinfo['navi_unit_info']['normal_icon_asset'];
                     }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png";

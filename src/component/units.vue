@@ -9,14 +9,18 @@
         </mu-card>
         <mu-card v-else-if="units" style="padding: 15px 0">
 
-            <mu-card-title title="社员信息" subTitle="所有社员(SR及以上，仅已收录社员)" style=""></mu-card-title>
-            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">*卡组信息可用于 <a target="_blank" href="http://llhelper.com/llnewautounit">LLHelper-自动组队</a></p>
+            <mu-card-title title="社员信息" subTitle="所有社员(SR及以上，仅已收录社员)" v-if="!islive"></mu-card-title>
+            <mu-card-title title="社员信息" subTitle="最近30天参与过Live的社员" v-else></mu-card-title>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">* 卡组信息可用于 <a target="_blank" href="http://llhelper.com/llnewautounit">LLHelper-自动组队</a></p>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold" v-if="!islive">**成员未显示时，可以通过打歌获取到成员信息，并切换至<span style="color: deeppink">live社员</span>查看</p>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold" v-else>**Live社员模式仅收集最近<span style="color: deeppink">30天内</span>在Live使用过的成员，同时无法显示孔数；
+                导出时将统一按照<span style="color: deeppink">4孔</span>进行导出</p>
 
-            <mu-checkbox label="包含SSR" class="checkbox" v-model="ssr" :change="filter_units()"></mu-checkbox>
-            <mu-checkbox label="包含SR" class="checkbox" v-model="sr" :change="filter_units()"></mu-checkbox>
-            <mu-checkbox label="包含预备教室" class="checkbox" v-model="back" :change="filter_units()"></mu-checkbox>
-<!--            <mu-raised-button style="margin-left: 15px; margin-bottom: 15px" secondary="" label="筛选"-->
-<!--                              @click="filter_units()"></mu-raised-button>-->
+            <mu-switch :label="gettypelabel()" class="checkbox" v-model="islive"></mu-switch>
+            <mu-checkbox label="包含SSR" class="checkbox" v-model="ssr"></mu-checkbox>
+            <mu-checkbox label="包含SR" class="checkbox" v-model="sr"></mu-checkbox>
+            <mu-checkbox label="包含预备教室" class="checkbox" v-model="back" v-if="!islive"></mu-checkbox>
+
             <mu-raised-button style="margin-left: 15px; margin-bottom: 15px" icon="import_export"
                               labelPosition="before" secondary=""
                               label="导出卡组JSON"
@@ -29,10 +33,12 @@
                         <mu-th class="mt-avatar">头像</mu-th>
                         <mu-th>成员名称</mu-th>
                         <mu-th>稀有度</mu-th>
-                        <mu-th>技能等级/槽数</mu-th>
+                        <mu-th v-if="!islive">技能等级/槽数</mu-th>
+                        <mu-th v-else>技能等级</mu-th>
                         <mu-th>绊</mu-th>
                         <mu-th>等级</mu-th>
-                        <mu-th>获得日期</mu-th>
+                        <mu-th v-if="!islive">获得日期</mu-th>
+                        <mu-th>数据更新于</mu-th>
                     </mu-thead>
                     <mu-tbody>
                         <mu-tr v-for="(unit,index) in units" :key="index">
@@ -56,11 +62,11 @@
                                 {{"id: " + unit['unit_id']}}
                             </mu-td>
                             <mu-td>{{unit['rarity_string']}}</mu-td>
-                            <mu-td>{{unit['unit_skill_level']}}级 / {{unit['unit_removable_skill_capacity']}}孔</mu-td>
+                            <mu-td>{{unit['unit_skill_level'] + "级" + (islive ? "" : (" / " + unit['unit_removable_skill_capacity'] + "孔"))}}</mu-td>
                             <mu-td>{{unit['love'] + "/" + unit['max_love']}}</mu-td>
-                            <mu-td>{{unit['level'] + "/" + unit['max_level']}}</mu-td>
-                            <mu-td>{{ unit['insert_date'].slice(0, -9)}}</mu-td>
-
+                            <mu-td>{{unit['level'] + (islive ? "" : ("/" + unit['max_level']))}}</mu-td>
+                            <mu-td v-if="!islive">{{unit['insert_date'].slice(0, -9)}}<br></mu-td>
+                            <mu-td>{{unit['update_time'].slice(0, -9)}}</mu-td>
 
                         </mu-tr>
                     </mu-tbody>
@@ -91,6 +97,7 @@
                 ssr: false,
                 sr: false,
                 back: false,
+                islive: false,
                 count: null,
                 error: null
             }
@@ -107,23 +114,20 @@
         },
         watch: {
             // 如果路由有变化，会再次执行该方法
-            '$route': 'fetchData'
+            '$route': 'fetchData',
+            'islive': 'changetype',
+            'ssr': 'changetype',
+            'sr': 'changetype',
+            'back': 'changetype',
         },
 
         methods: {
-            filter_units() {
-                this.$router.push({
-                    path:this.$route.path,
-                    query:{
-                        ssr: this.ssr ? 1 : undefined,
-                        sr: this.sr ? 1 : undefined,
-                        back: this.back ? 1 : undefined
-                    }
-                })
-            },
             export_units() {
                 let uri = "llproxy/unitsExport/?uid=" + this.$route.params.id +
                     (this.ssr ? "&ssr=1" : "") + (this.sr ? "&sr=1" : "") + (this.back ? "&back=1" : "");
+                if (this.islive) {
+                    uri += "&islive=1";
+                }
                 if (Cookies.get('dbLocalize') === 'JP') {
                     uri += "&lang=JP";
                 } else {
@@ -149,7 +153,8 @@
                         page: vm.page,
                         ssr: vm.ssr ? 1 : undefined,
                         sr: vm.sr ? 1 : undefined,
-                        back: vm.back ? 1 : undefined,
+                        back: (vm.back && !vm.islive) ? 1 : undefined,
+                        islive: vm.islive ? 1 : undefined,
                         lang: Cookies.get('dbLocalize')
                     }
                 })
@@ -184,14 +189,29 @@
             },
             getavatarsrc(unit) {
                 if (unit && unit['rank_max_icon_asset']) {
+                    let asset_root = util.asset_root;
+                    if (unit['unit_number'] >= 10000) {
+                        asset_root = util.asset_root2;
+                    }
                     if (unit['display_rank'] === 2) {
-                        return util.asset_root + unit['rank_max_icon_asset'];
+                        return asset_root + unit['rank_max_icon_asset'];
                     } else {
-                        return util.asset_root + unit['normal_icon_asset'];
+                        return asset_root + unit['normal_icon_asset'];
                     }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
                 }
+            },
+            gettypelabel() {
+                if (this.islive) {
+                    return "切换 普通社员";
+                } else {
+                    return "切换 live社员";
+                }
+            },
+            changetype() {
+                this.page = 1;
+                this.fetchData(true);
             }
 
         }

@@ -11,10 +11,14 @@
 
             <mu-card-title title="队伍" subTitle="当前队伍（点击队伍名可导出至LLHelper）" style=""></mu-card-title>
 
-            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">*队伍未显示时，更换下主力队伍并返回主页即可；
-                成员未显示时，可以通过打歌获取到成员信息，但孔数将均被设置为<span style="color: deeppink">4孔</span></p>
             <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">**队伍信息可用于<a href='http://llhelper.com/llnewunit'>LLHelper-队伍强度、得分计算</a>。
                 由于LLHelper限制，未识别成员将使用1号成员<span style="color: deeppink">桜坂しずく</span>代替</p>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold" v-if="!islive">* 队伍未显示时，更换下主力队伍并返回主页即可；
+                成员未显示时，可以通过打歌获取到成员信息，并切换至<span style="color: deeppink">live社员</span>查看</p>
+            <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold" v-else>* Live社员模式仅收集在Live使用过的成员，同时无法显示孔数；
+                导出时将统一按照<span style="color: deeppink">4孔</span>进行导出</p>
+
+            <mu-switch :label="gettypelabel()" v-model="islive" style="margin-left: 15px; margin-top: 8px; margin-bottom: 15px"></mu-switch>
 
             <div>
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="false" height="auto">
@@ -36,10 +40,10 @@
                                 </mu-badge>
                                 <br>
                                 <div style="font-size: 75%" v-if="unit['unit_id']">
-                                    {{unit.unit_skill_level}}级 / {{unit.unit_removable_skill_capacity}}孔
+                                    {{unit.unit_skill_level + "级" + (islive ? "" : (" / " + unit.unit_removable_skill_capacity + "孔"))}}
                                 </div>
                                 <div style="font-size: 20%; text-align: center" v-else>
-                                    {{'- / -'}}
+                                    {{islive ? '-' : '- / -'}}
                                 </div>
                             </td>
                             <td style="width: 10px"></td>
@@ -63,7 +67,8 @@
             return {
                 loadingapi: true,
                 decks: null,
-                error:null
+                error: null,
+                islive: false
             }
         },
         created () {
@@ -80,15 +85,20 @@
         watch: {
             // 如果路由有变化，会再次执行该方法
             '$route': 'fetchData',
+            'islive': 'changetype'
         },
 
         methods: {
             getavatarsrc(unit) {
                 if (unit && unit['rank_max_icon_asset']) {
+                    let asset_root = util.asset_root;
+                    if (unit['unit_number'] >= 10000) {
+                        asset_root = util.asset_root2;
+                    }
                     if (unit['display_rank'] === 2) {
-                        return util.asset_root + unit['rank_max_icon_asset'];
+                        return asset_root + unit['rank_max_icon_asset'];
                     } else {
-                        return util.asset_root + unit['normal_icon_asset'];
+                        return asset_root + unit['normal_icon_asset'];
                     }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"
@@ -103,6 +113,7 @@
                 axios.get(util.api_server + 'llproxy/deckInfo/', {
                     params: {
                         uid: vm.$route.params.id,
+                        islive: this.islive ? 1 : undefined,
                         lang: Cookies.get('dbLocalize')
                     }
                 })
@@ -134,6 +145,9 @@
             },
             export_deck(index) {
                 let uri = "llproxy/deckExport/?uid=" + this.$route.params.id + "&unitDeckId=" + index;
+                if (this.islive) {
+                    uri += "&islive=1";
+                }
                 if (Cookies.get('dbLocalize') === 'JP') {
                     uri += "&lang=JP";
                 } else {
@@ -141,6 +155,16 @@
                 }
                 window.open(util.api_server + uri)
             },
+            gettypelabel() {
+                if (this.islive) {
+                    return "切换 普通社员";
+                } else {
+                    return "切换 live社员";
+                }
+            },
+            changetype() {
+                this.fetchData(false);
+            }
         }
     }
 </script>

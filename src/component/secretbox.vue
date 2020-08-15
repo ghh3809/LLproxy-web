@@ -166,10 +166,14 @@
             },
             getavatarsrc(unit) {
                 if (unit && unit['rank_max_icon_asset']) {
+                    let asset_root = util.asset_root;
+                    if (unit['unit_number'] >= 10000) {
+                        asset_root = util.asset_root2;
+                    }
                     if (unit['rank'] === 2) {
-                        return util.asset_root + unit['rank_max_icon_asset'];
+                        return asset_root + unit['rank_max_icon_asset'];
                     } else {
-                        return util.asset_root + unit['normal_icon_asset'];
+                        return asset_root + unit['normal_icon_asset'];
                     }
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png"

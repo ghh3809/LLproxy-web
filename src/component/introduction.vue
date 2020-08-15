@@ -58,9 +58,15 @@
 
                <mu-card-title title="更新日志" subTitle=" Updates"/>
                <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200811</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 支持在队伍信息/社员信息中，查看最近在live中上场的成员</div>
+                       <div>2. 修复&优化了一些已知问题</div>
+                   </div>
+                   <br>
                    <div style="font-size: 150%">20200810</div>
                    <div style="margin-left: 30px">
-                       <div>1. 支持切换数据语言（感谢<a href="https://card.niconi.co.ni">查卡器</a>和<a href="http://llsif.win/">SIFDB</a>提供的国/日服数据包）</div>
+                       <div>1. 支持切换数据语言（注：部分社员可能在日服语言下无法查看）（感谢<a href="https://card.niconi.co.ni">查卡器</a>和<a href="http://llsif.win/">SIFDB</a>提供的国/日服数据包）</div>
                        <div>2. 修复了社员数据导出异常的bug</div>
                    </div>
                    <br>
