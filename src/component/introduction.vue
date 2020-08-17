@@ -58,6 +58,11 @@
 
                <mu-card-title title="更新日志" subTitle=" Updates"/>
                <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200817</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 现在可以记录开箱信息啦！快点左侧"开箱记录"查看吧！</div>
+                   </div>
+                   <br>
                    <div style="font-size: 150%">20200811</div>
                    <div style="margin-left: 30px">
                        <div>1. 支持在队伍信息/社员信息中，查看最近在live中上场的成员</div>

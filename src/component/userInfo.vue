@@ -11,6 +11,7 @@
         </mu-card>
         <mu-card v-else-if="userinfo" style="overflow: hidden">
             <mu-card-header :title="userinfo.name" :subTitle="'Rank. '+userinfo.level">
+                <img :src="getasset(userinfo['award_asset'])" alt="" height="60px" slot="avatar">
                 <mu-avatar :src="getavatarsrc()" slot="avatar" :size="60"></mu-avatar>
                 <p style="font-size: 70%; color: gray">*头像未显示时，可在游戏中查看个人资料进行刷新</p>
                 <div>
@@ -227,6 +228,13 @@
                     } else {
                         return asset_root + this.userinfo['navi_unit_info']['normal_icon_asset'];
                     }
+                } else {
+                    return util.asset_root + "assets/image/ui/common/com_win_22.png";
+                }
+            },
+            getasset(asset) {
+                if (asset) {
+                    return util.asset_root + asset;
                 } else {
                     return util.asset_root + "assets/image/ui/common/com_win_22.png";
                 }

@@ -177,6 +177,7 @@
         padding-right: 5px;
         height: 70px;
         white-space: normal;
+        text-align: center;
     }
 
     .livetable {

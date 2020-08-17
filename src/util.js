@@ -2,7 +2,7 @@ let asset_root;
 let asset_root2;
 asset_root = "http://r.llsif.win/";
 asset_root2 = "https://card.niconi.co.ni/asset/";
-const debug = true;
+const debug = false;
 const api_server = debug?"http://localhost:8090/api/":"http://kotoumi.top/api/";
 
 
