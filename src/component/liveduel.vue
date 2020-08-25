@@ -11,36 +11,26 @@
             <mu-card-title title="Live" subTitle="被收录的live（点击歌曲名或活动名进行筛选）" style=""></mu-card-title>
 
             <div style="text-align: right">
-                <mu-text-field style="text-align: left; margin-right: 15px" v-model="keyword" hint-text="歌曲名/活动名" icon="search" @keydown.enter.native="search_live()"></mu-text-field>
-                <mu-raised-button @click="search_live()" secondary="" style="margin-right: 15px" label="筛选"></mu-raised-button>
-                <mu-raised-button @click="goto_live()" secondary="" style="margin-right: 15px" label="重置"></mu-raised-button>
-                <mu-raised-button @click="goto_duel()" secondary="" style="margin-right: 15px" label="查看百人协力"></mu-raised-button>
+                <mu-raised-button @click="goto_normal()" secondary="" style="margin-right: 15px; margin-bottom: 15px" label="查看通常live"></mu-raised-button>
             </div>
             <mu-divider></mu-divider>
             <div>
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="false"
                           height="560px">
                     <mu-thead slot="header" class="tbth">
-                        <mu-th class="wtcover">封面</mu-th>
-                        <mu-th class="wtmap">谱面/完成时间</mu-th>
-                        <mu-th class="wtscore">分数</mu-th>
-                        <mu-th class="wtcombo">连击数/总数</mu-th>
-                        <mu-th class="wtnotes">P/Gr/G/B/M P率</mu-th>
-                        <mu-th class="wtper">活动</mu-th>
-                        <mu-th class="wtper">详情</mu-th>
+                        <mu-th>完成时间</mu-th>
+                        <mu-th>分数</mu-th>
+                        <mu-th>连击数/总数</mu-th>
+                        <mu-th>COMBO</mu-th>
+                        <mu-th>P/Gr/G/B/M</mu-th>
+                        <mu-th>P率</mu-th>
+                        <mu-th>详情</mu-th>
                     </mu-thead>
                     <mu-tbody>
-                        <mu-tr v-for="(live,index) in lives" :key="index" :class="live['ap']?'live-ap':(live['fc']?'live-fc':'')" >
-                            <mu-td @click="goto_live(live['live_setting_id'])">
-                                <mu-badge class="demo-badge-content cursor-pointer" >
-                                    <mu-avatar :src="getlive_iconsrc(live)" :size="50"></mu-avatar>
-                                </mu-badge>
-                            </mu-td>
+                        <mu-tr v-for="(live,index) in lives" :key="index" style="height: 60px" >
 
-                            <mu-td class="cursor-pointer" @click="goto_live(live['live_setting_id'])">
-                                <span>{{getmapname(live)}}</span>
-                                <br>
-                                <span style="font-size: 85%">{{ live['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace('202', "2").replace("T", " ")}}</span>
+                            <mu-td>
+                                <span>{{ live['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace('202', "2").replace("T", " ")}}</span>
                             </mu-td>
 
                             <mu-td>{{live['score']}}</mu-td>
@@ -48,19 +38,20 @@
                             <mu-td>
                                 <span>{{live['max_combo']}}</span>
                                 <span>{{getcombostring(live)}}</span>
-                                <br>
-                                <span style="font-size: 85%">{{"COMBO: " + getcombolevel(live)}}</span>
+                            </mu-td>
+
+                            <mu-td>
+                                <span>{{"COMBO: " + getcombolevel(live)}}</span>
                             </mu-td>
 
                             <mu-td>
                                 <span>{{getdetailstring(live)}}</span>
-                                <br>
-                                <span style="font-size: 85%">{{getpercent(live)}}</span>
                             </mu-td>
 
-                            <mu-td class="cursor-pointer" @click="goto_live(undefined, live['event_id'])">
-                                {{live['event_name'] || ("event: " + live['event_id'])}}
+                            <mu-td>
+                                <span>{{getpercent(live)}}</span>
                             </mu-td>
+
                             <mu-td class="cursor-pointer" @click="goto_detail(live)">
                                 <mu-icon value="navigate_next"></mu-icon>
                             </mu-td>
@@ -112,32 +103,14 @@
         },
 
         methods: {
-            goto_live(setid, eventid) {
-                this.keyword = "";
-                this.$router.push({
-                    path:this.$route.path,
-                    query:{
-                        setid: (setid === null) ? undefined : setid,
-                        eventid: (eventid === null) ? undefined : eventid
-                    }
-                })
-            },
             goto_detail(live) {
                 this.$router.push({
-                    path:this.$route.path.replace("live", "livedetail") + "/" + live['id']
+                    path:this.$route.path.replace("liveduel", "livedetail") + "/" + live['id']
                 })
             },
-            goto_duel() {
+            goto_normal() {
                 this.$router.push({
-                    path:this.$route.path.replace("live", "liveduel")
-                })
-            },
-            search_live() {
-                this.$router.push({
-                    path:this.$route.path,
-                    query:{
-                        keyword: (this.keyword === null || this.keyword === "") ? undefined : this.keyword,
-                    }
+                    path:this.$route.path.replace("liveduel", "live")
                 })
             },
             handlepage (newIndex) {
@@ -158,6 +131,7 @@
                         setid: vm.$route.query.setid === null ? undefined : vm.$route.query.setid,
                         eventid: vm.$route.query.eventid === null ? undefined : vm.$route.query.eventid,
                         keyword: vm.$route.query.keyword === null ? undefined : vm.$route.query.keyword,
+                        isduel: 1,
                         lang: Cookies.get('dbLocalize')
                     },
                 })

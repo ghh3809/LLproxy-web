@@ -23,6 +23,7 @@ import userinfo from './component/userInfo.vue'
 import Units from './component/units.vue'
 import Live from './component/live.vue'
 import LiveDetail from './component/livedetail.vue'
+import LiveDuel from './component/liveduel.vue'
 import SecretBox from './component/secretbox.vue'
 import Search from './component/search.vue'
 import Marathon from './component/marathon.vue'
@@ -78,6 +79,10 @@ const router = new VueRouter({
                 {
                     path: ':id/live',
                     component: Live
+                },
+                {
+                    path: ':id/liveduel',
+                    component: LiveDuel
                 },
                 {
                     path: ':id/livedetail/:liveid',
