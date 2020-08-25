@@ -58,6 +58,11 @@
 
                <mu-card-title title="更新日志" subTitle=" Updates"/>
                <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200818</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 新增统计开箱结果页面，收集一段时间数据后可能可以为攻略党提供帮助^_^</div>
+                   </div>
+                   <br>
                    <div style="font-size: 150%">20200817</div>
                    <div style="margin-left: 30px">
                        <div>1. 现在可以记录开箱信息啦！快点左侧"开箱记录"查看吧！</div>

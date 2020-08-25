@@ -10,9 +10,8 @@
 
             <mu-card-title title="奖励箱" subTitle="live 奖励宝箱" style=""></mu-card-title>
 
-            <mu-content-block style="margin-left: 10px">
-                <mu-switch label="仅看蛋" v-model="limited"></mu-switch>
-            </mu-content-block>
+            <mu-switch label="仅看蛋" v-model="limited" style="margin-left: 25px; vertical-align: middle"></mu-switch>
+            <mu-raised-button @click="goto_stat()" secondary="" style="margin-left: 30px" label="查看统计"></mu-raised-button>
 
             <div>
                 <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true" height="auto">
@@ -98,6 +97,11 @@
                 this.page = newIndex;
                 this.fetchData(false);
                 document.getElementsByClassName('mu-table')[1].parentElement.scrollTop = 0
+            },
+            goto_stat() {
+                this.$router.push({
+                    path:this.$route.path.replace("effortbox", "effortboxstat")
+                })
             },
             fetchData (reload = true) {
 
