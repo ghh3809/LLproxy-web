@@ -58,6 +58,11 @@
 
                <mu-card-title title="更新日志" subTitle=" Updates"/>
                <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200826</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 新增百人协力奖励页面，不承担点统计工作的数据站不是好数据站（笑）</div>
+                   </div>
+                   <br>
                    <div style="font-size: 150%">20200818</div>
                    <div style="margin-left: 30px">
                        <div>1. 新增统计开箱结果页面，收集一段时间数据后可能可以为攻略党提供帮助^_^</div>

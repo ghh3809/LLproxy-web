@@ -8,7 +8,7 @@
         </mu-card>
         <mu-card v-else-if="lives" style="padding: 15px 0">
 
-            <mu-card-title title="Live" subTitle="被收录的live（点击歌曲名或活动名进行筛选）" style=""></mu-card-title>
+            <mu-card-title title="Live" subTitle="记录到成功结算的百人协力" style=""></mu-card-title>
 
             <div style="text-align: right">
                 <mu-raised-button @click="goto_normal()" secondary="" style="margin-right: 15px; margin-bottom: 15px" label="查看通常live"></mu-raised-button>
@@ -27,7 +27,7 @@
                         <mu-th>详情</mu-th>
                     </mu-thead>
                     <mu-tbody>
-                        <mu-tr v-for="(live,index) in lives" :key="index" style="height: 60px" >
+                        <mu-tr v-for="(live,index) in lives" :key="index" :class="live['ap']?'live-ap':(live['fc']?'live-fc':'normal-live')" >
 
                             <mu-td>
                                 <span>{{ live['update_time'].replace(new Date().getFullYear() + '-', "").replace('201', "1").replace('202', "2").replace("T", " ")}}</span>
@@ -255,10 +255,16 @@
 
     .live-fc {
         background-color: rgba(253, 239, 255, 0.65);
+        height: 60px;
     }
 
     .live-ap {
         background-color: rgba(251, 223, 255, 0.9);
+        height: 60px;
+    }
+
+    .normal-live {
+        height: 60px;
     }
 
     .tbth {

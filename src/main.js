@@ -29,9 +29,10 @@ import Search from './component/search.vue'
 import Marathon from './component/marathon.vue'
 import PNF from './component/pagenotfound.vue'
 import Deck from './component/deck.vue'
-import DeckInfo from './component/deckInfo.vue'
 import EffortBox from './component/effortbox.vue'
+import DuelLiveBox from './component/duellivebox.vue'
 import EffortBoxStat from './component/effortboxstat.vue'
+import DuelLiveBoxStat from './component/duelliveboxstat.vue'
 import Challenge from './component/challenge.vue'
 import Festival from './component/festival.vue'
 import Battle from './component/battle.vue'
@@ -97,8 +98,16 @@ const router = new VueRouter({
                     component: EffortBox
                 },
                 {
+                    path: ':id/duellivebox',
+                    component: DuelLiveBox
+                },
+                {
                     path: ':id/effortboxstat',
                     component: EffortBoxStat
+                },
+                {
+                    path: ':id/duelliveboxstat',
+                    component: DuelLiveBoxStat
                 },
                 {
                     path: ':id/marathon',

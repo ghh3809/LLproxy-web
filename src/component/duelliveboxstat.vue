@@ -8,17 +8,42 @@
         </mu-card>
         <mu-card v-else-if="result" style="padding: 15px 0">
 
-            <mu-card-title title="奖励箱统计" :subTitle="showall ? '统计了所有接入本站的奖励箱' : '统计了各奖励箱的概率分布'" style=""></mu-card-title>
+            <mu-card-title title="百协开箱统计" :subTitle="showall ? '统计了所有接入本站的奖励箱' : '统计了各奖励箱的概率分布'" style=""></mu-card-title>
             <p style="font-size: 70%; color: gray; margin-left: 15px; font-weight: bold">* 最后一次开箱信息更新于：<span style="color: deeppink">{{update_time}}</span></p>
 
             <mu-content-block style="margin-left: 10px">
-                <mu-switch :label="gettypelabel()" v-model="limited"></mu-switch>
-                <mu-switch label="查看全员" v-model="showall" style="margin-left: 30px"></mu-switch>
+                <mu-switch label="查看全员" v-model="showall"></mu-switch>
             </mu-content-block>
 
             <div>
-                <template v-for="box in result">
-                    <mu-card-text class="card-text">箱子大小：<span class="card-text-em">{{box['desc'] / 10000 + '万'}}</span>，总开箱数：<span class="card-text-em">{{box['count']}}</span></mu-card-text>
+
+                <mu-card-title title="Live完成箱子" sub-title="演唱会成功存活/复活获得的箱子" style=""></mu-card-title>
+
+                <mu-card-text class="card-text">完成箱子<span class="card-text-em">{{result[0]['desc']}}</span>，总开箱数：<span class="card-text-em">{{result[0]['count']}}</span></mu-card-text>
+                <mu-divider></mu-divider>
+                <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true" height="auto">
+                    <mu-thead slot="header">
+                        <mu-th>图例</mu-th>
+                        <mu-th>类别</mu-th>
+                        <mu-th>出现次数</mu-th>
+                        <mu-th>比例</mu-th>
+                    </mu-thead>
+                    <mu-tbody>
+                        <mu-tr v-for="(item, index) in result[0]['items']" :key="index">
+                            <mu-td><img :src="getavatarsrc(item['asset'])" alt="" style="height: 30px"></mu-td>
+                            <mu-td>{{item['category']}}</mu-td>
+                            <mu-td>{{item['amount']}}</mu-td>
+                            <mu-td>{{item['ratio']}}</mu-td>
+                        </mu-tr>
+                    </mu-tbody>
+                </mu-table>
+                <mu-divider></mu-divider>
+
+                <mu-card-title title="全员分数箱子" sub-title="全员完成度S以上获得的箱子" style=""></mu-card-title>
+
+                <template v-for="ind in 7">
+
+                    <mu-card-text class="card-text">分数完成度：<span class="card-text-em">{{result[ind]['desc']}}</span>，总开箱数：<span class="card-text-em">{{result[ind]['count']}}</span></mu-card-text>
                     <mu-divider></mu-divider>
                     <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true" height="auto">
                         <mu-thead slot="header">
@@ -28,7 +53,7 @@
                             <mu-th>比例</mu-th>
                         </mu-thead>
                         <mu-tbody>
-                            <mu-tr v-for="(item, index) in box['items']" :key="index">
+                            <mu-tr v-for="(item, index) in result[ind]['items']" :key="index">
                                 <mu-td><img :src="getavatarsrc(item['asset'])" alt="" style="height: 30px"></mu-td>
                                 <mu-td>{{item['category']}}</mu-td>
                                 <mu-td>{{item['amount']}}</mu-td>
@@ -38,6 +63,31 @@
                     </mu-table>
                     <mu-divider></mu-divider>
                 </template>
+
+                <mu-card-title title="个人连击箱子" sub-title="连击等级C以上获得的箱子" style=""></mu-card-title>
+
+                <template v-for="ind in 4">
+                    <mu-card-text class="card-text">连击评价：<span class="card-text-em">{{result[ind + 7]['desc']}}</span>，总开箱数：<span class="card-text-em">{{result[ind + 7]['count']}}</span></mu-card-text>
+                    <mu-divider></mu-divider>
+                    <mu-table class="livetable" :selectable="false" :showCheckbox="false" :fixedHeader="true" height="auto">
+                        <mu-thead slot="header">
+                            <mu-th>图例</mu-th>
+                            <mu-th>类别</mu-th>
+                            <mu-th>出现次数</mu-th>
+                            <mu-th>比例</mu-th>
+                        </mu-thead>
+                        <mu-tbody>
+                            <mu-tr v-for="(item, index) in result[ind + 7]['items']" :key="index">
+                                <mu-td><img :src="getavatarsrc(item['asset'])" alt="" style="height: 30px"></mu-td>
+                                <mu-td>{{item['category']}}</mu-td>
+                                <mu-td>{{item['amount']}}</mu-td>
+                                <mu-td>{{item['ratio']}}</mu-td>
+                            </mu-tr>
+                        </mu-tbody>
+                    </mu-table>
+                    <mu-divider></mu-divider>
+                </template>
+
             </div>
         </mu-card>
 
@@ -57,7 +107,6 @@
                 update_time: null,
                 error: null,
                 util: util,
-                limited: false,
                 showall: false
             }
         },
@@ -74,7 +123,6 @@
         watch: {
             // 如果路由有变化，会再次执行该方法
             '$route': 'fetchData',
-            'limited': 'changetype',
             'showall': 'changetype'
         },
 
@@ -85,10 +133,9 @@
                 reload && (this.loadingapi = true);
                 // replace getPost with your data fetching util / API wrapper
                 const vm = this;
-                axios.get(util.api_server + 'llproxy/effortBoxStat/', {
+                axios.get(util.api_server + 'llproxy/duelLiveBoxStat/', {
                     params: {
-                        uid: this.showall ? 0 : vm.$route.params.id,
-                        limited: this.limited ? 1 : undefined,
+                        uid: this.showall ? 0 : vm.$route.params.id
                     }
                 })
                     .then(function (response) {
@@ -111,14 +158,7 @@
             },
             changetype() {
                 this.fetchData(false);
-            },
-            gettypelabel() {
-                if (this.limited) {
-                    return "切换 箱子";
-                } else {
-                    return "切换 蛋";
-                }
-            },
+            }
         }
     }
 </script>

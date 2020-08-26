@@ -11,6 +11,8 @@
                 <mu-menu-item title="Live记录" leftIcon="music_note" @click="goto('/user/'+getID()+'/live')"></mu-menu-item>
                 <mu-menu-item title="招募记录" leftIcon="mail" @click="goto('/user/'+getID()+'/secretbox')"></mu-menu-item>
                 <mu-menu-item title="开箱记录" leftIcon="card_giftcard" @click="goto('/user/'+getID()+'/effortbox')"></mu-menu-item>
+                <mu-divider/>
+                <mu-menu-item title="百协奖励" leftIcon="card_giftcard" @click="goto('/user/'+getID()+'/duellivebox')"></mu-menu-item>
 <!--                <mu-menu-item title="活动记录" rightIcon="keyboard_arrow_right" inset>-->
 <!--                    <mu-menu-item title="传统活动 /Marathon" @click="goto('/user/'+getID()+'/marathon')"></mu-menu-item>-->
 <!--                    <mu-menu-item title="Score Match" @click="goto('/user/'+getID()+'/battle')"></mu-menu-item>-->
