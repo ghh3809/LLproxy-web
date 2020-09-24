@@ -36,7 +36,7 @@ import DuelLiveBoxStat from './component/duelliveboxstat.vue'
 import Challenge from './component/challenge.vue'
 import Festival from './component/festival.vue'
 import Battle from './component/battle.vue'
-import Loveca from './component/loveca.vue'
+import LpRecovery from './component/lprecovery.vue'
 import Quest from './component/quest.vue'
 // const TSwitch = resolve => require(['./component/themeswitch.vue'], resolve)
 const router = new VueRouter({
@@ -126,8 +126,8 @@ const router = new VueRouter({
                     component: Challenge
                 },
                 {
-                    path: ':id/loveca',
-                    component: Loveca
+                    path: ':id/lprecovery',
+                    component: LpRecovery
                 },
                 {
                     path: ':id/quest',

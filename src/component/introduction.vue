@@ -58,6 +58,11 @@
 
                <mu-card-title title="更新日志" subTitle=" Updates"/>
                <mu-card-text style="margin-bottom: 20px">
+                   <div style="font-size: 150%">20200924</div>
+                   <div style="margin-left: 30px">
+                       <div>1. 新增LP回复记录页面，帮你统计肝活到底亏没亏~</div>
+                   </div>
+                   <br>
                    <div style="font-size: 150%">20200826</div>
                    <div style="margin-left: 30px">
                        <div>1. 新增百人协力奖励页面，不承担点统计工作的数据站不是好数据站（笑）</div>

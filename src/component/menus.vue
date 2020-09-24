@@ -10,7 +10,8 @@
 
                 <mu-menu-item title="Live记录" leftIcon="music_note" @click="goto('/user/'+getID()+'/live')"></mu-menu-item>
                 <mu-menu-item title="招募记录" leftIcon="mail" @click="goto('/user/'+getID()+'/secretbox')"></mu-menu-item>
-                <mu-menu-item title="开箱记录" leftIcon="card_giftcard" @click="goto('/user/'+getID()+'/effortbox')"></mu-menu-item>
+                <mu-menu-item title="开箱记录" leftIcon="storage" @click="goto('/user/'+getID()+'/effortbox')"></mu-menu-item>
+                <mu-menu-item title="LP回复记录" leftIcon="add_box" @click="goto('/user/'+getID()+'/lprecovery')"></mu-menu-item>
                 <mu-divider/>
                 <mu-menu-item title="百协奖励" leftIcon="card_giftcard" @click="goto('/user/'+getID()+'/duellivebox')"></mu-menu-item>
 <!--                <mu-menu-item title="活动记录" rightIcon="keyboard_arrow_right" inset>-->
@@ -19,7 +20,6 @@
 <!--                    <mu-menu-item title="Medley Fes" @click="goto('/user/'+getID()+'/festival')"></mu-menu-item>-->
 <!--                    <mu-menu-item title="Challenge Fes" @click="goto('/user/'+getID()+'/challenge')"></mu-menu-item>-->
 <!--                    <mu-menu-item title="散步拉力 /Quest" @click="goto('/user/'+getID()+'/quest')"></mu-menu-item>-->
-<!--                    <mu-menu-item title="Loveca LP回复" @click="goto('/user/'+getID()+'/loveca')"></mu-menu-item>-->
 <!--                </mu-menu-item>-->
             </mu-menu>
         </mu-paper>
