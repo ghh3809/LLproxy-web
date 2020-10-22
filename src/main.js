@@ -13,12 +13,8 @@ Vue.use(MuseUI);
 
 
 import user from './component/user.vue'
+import fox from './component/fox.vue'
 import intro from './component/introduction.vue'
-// const userinfo = resolve => require(['./component/userInfo.vue'], resolve)
-// const Units = resolve => require(['./component/units.vue'], resolve)
-// const Live = resolve => require(['./component/live.vue'], resolve)
-// const SecretBox = resolve => require(['./component/secretbox.vue'], resolve)
-// const Search = resolve => require(['./component/search.vue'], resolve)
 import userinfo from './component/userInfo.vue'
 import Units from './component/units.vue'
 import Live from './component/live.vue'
@@ -38,12 +34,39 @@ import Festival from './component/festival.vue'
 import Battle from './component/battle.vue'
 import LpRecovery from './component/lprecovery.vue'
 import Quest from './component/quest.vue'
-// const TSwitch = resolve => require(['./component/themeswitch.vue'], resolve)
+import FoxCpp from './component/foxcpp.vue'
+import Grammar from './component/foxcppgrammar.vue'
+import Sample from './component/foxcppsample.vue'
+import Paintball from './component/foxcpppaintball.vue'
 const router = new VueRouter({
     // mode: 'history',
     routes: [
         {
-            path: '/', redirect: '/user'
+            path: '/',
+            redirect: '/user'
+        },
+        {
+            name: 'foxcpp',
+            path: '/foxcpp',
+            component: fox,
+            children: [
+                {
+                    path: '',
+                    component: FoxCpp
+                },
+                {
+                    path: 'grammar',
+                    component: Grammar
+                },
+                {
+                    path: 'sample',
+                    component: Sample
+                },
+                {
+                    path: 'paintball',
+                    component: Paintball
+                }
+            ]
         },
         {
             name: 'user',
@@ -59,11 +82,6 @@ const router = new VueRouter({
                     path: 'search',
                     component: Search
                 },
-                // {
-                //     name: 'switch',
-                //     path: 'switch',
-                //     component: TSwitch
-                // },
                 {
                     name: 'userInfo',
                     path: ':id',
